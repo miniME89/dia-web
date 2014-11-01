@@ -1,0 +1,106 @@
+<!-- column: left -->
+<div class="column left">
+
+    <div class="sidebar">
+        <div class="header">Header</div>
+        <div class="body">
+            <!-- state machine elements -->
+            <div class="input-group input-group-sm" style="width: 100%">
+                <input type="text" placeholder="Search" class="form-control borderless" ng-model="stencilFilter">
+                <span class="input-group-btn" ng-show="stencilFilter.length">
+                    <button type="button" class="btn btn-primary borderless" ng-click="stencilFilter = ''"><span class="fa fa-remove"></span></button>
+                </span>
+            </div>
+            <div class="stencils" ng-controller="StencilsController">
+                <div class="group" ng-if="group.stencils.length > 0" ng-repeat="group in groups | stencils:stencilFilter">
+                    <div class="header" ng-click="closed = !closed">
+                        <span class="fa fa-fw" ng-class="{'fa-caret-down': !closed, 'fa-caret-right': closed}"></span> {{group.name}}
+                    </div>
+                    <div class="body" ng-show="!closed">
+                        <div class="stencil" data-toggle="popover" data-original-title="{{stencil.info.name}}" data-content="{{stencil.info.description}}" ng-repeat="stencil in group.stencils"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+<!-- column: center -->
+<div class="column center">
+
+    <!-- editor toolbar -->
+    <div class="toolbar form-inline" role="toolbar" ng-controller="ToolbarController">
+        <div class="btn-group btn-group">
+            <button type="button" class="btn btn-default">Left</button>
+            <button type="button" class="btn btn-default">Left</button>
+            <button type="button" class="btn btn-default">Left</button>
+        </div>
+        <div class="btn-group btn-group">
+            <button type="button" class="btn btn-default">Left</button>
+            <button type="button" class="btn btn-default">Left</button>
+            <button type="button" class="btn btn-default">Left</button>
+        </div>
+        <div class="btn-group btn-group">
+            <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
+                {{view.scale * 100}}% <span class="caret"></span>
+            </button>
+            <ul class="dropdown-menu" role="menu">
+                <li ng-repeat="option in scaleOptions" ng-click="$parent.view.scale = option"><a href="">{{option * 100}}</a></li>
+            </ul>
+        </div>
+        <div class="form-group">
+            <input class="form-control" type="range" value="" placeholder="" ng-model="view.grid">
+            <input type="checkbox" class="checkbox-inline" value="" ng-model="view.gridVisible">
+        </div>
+    </div>
+
+    <!-- editor -->
+    <div class="editor-scroller">
+        <div id="editor" class="editor">
+            <!-- overlay -->
+            <div class="overlay" ng-if="view.selectionElements.length">
+                <!-- menu -->
+                <div class="menu">
+                    <a data-toggle="tooltip" data-original-title="{{menuItem.title}}" data-action="{{menuItem.action}}" ng-repeat="menuItem in view.selectionFocus.attributes.menu">
+                        <span class="{{menuItem.icon}}"></span>
+                    </a>
+                </div>
+
+                <!-- menu -->
+                <div class="transform">
+                <div class="tl"><span class="fa fa-square"></span></div>
+                    <div class="tr"><span class="fa fa-square"></span></div>
+                    <div class="bl"><span class="fa fa-square"></span></div>
+                    <div class="br"><span class="fa fa-square"></span></div>
+                </div>
+
+                <!-- selection -->
+                <div class="selection"></div>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+<!-- column: right -->
+<div class="column right">
+
+    <div class="sidebar">
+        <div class="header">Header</div>
+        <div class="body">
+            <textarea rows="16" style="width: 100%;" ng-bind="graph.toJSON() | json"></textarea>
+        </div>
+    </div>
+
+    <div class="sidebar">
+        <div class="header">Header</div>
+        <div class="body" style="overflow: hidden; white-space: nowrap;"><!-- -->
+            <div ng-repeat="(key, value) in view">
+                <div>{{key}}: {{value}}</div>
+            </div>
+            <div class="editor-overview"></div>
+        </div>
+    </div>
+
+</div>
