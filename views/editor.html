@@ -2,7 +2,7 @@
 <div class="column left">
 
     <div class="sidebar">
-        <div class="header">Header</div>
+        <div class="header">Elements</div>
         <div class="body">
             <!-- state machine elements -->
             <div class="input-group input-group-sm" style="width: 100%">
@@ -59,7 +59,7 @@
     <div class="editor-scroller">
         <div id="editor" class="editor">
             <!-- overlay -->
-            <div class="overlay" ng-if="view.selectionElements.length">
+            <div class="overlay">
                 <!-- menu -->
                 <div class="menu">
                     <a data-toggle="tooltip" data-original-title="{{menuItem.title}}" data-action="{{menuItem.action}}" ng-repeat="menuItem in view.selectionFocus.attributes.menu">
@@ -67,7 +67,7 @@
                     </a>
                 </div>
 
-                <!-- menu -->
+                <!-- transform -->
                 <div class="transform">
                 <div class="tl"><span class="fa fa-square"></span></div>
                     <div class="tr"><span class="fa fa-square"></span></div>
@@ -87,15 +87,16 @@
 <div class="column right">
 
     <div class="sidebar">
-        <div class="header">Header</div>
+        <div class="header">Properties</div>
         <div class="body">
-            <textarea rows="16" style="width: 100%;" ng-bind="graph.toJSON() | json"></textarea>
+            <div class="properties">t</div>
         </div>
     </div>
 
     <div class="sidebar">
-        <div class="header">Header</div>
+        <div class="header">Editor</div>
         <div class="body" style="overflow: hidden; white-space: nowrap;"><!-- -->
+            <textarea rows="10" style="width: 100%;" ng-bind="graph.toJSON() | json"></textarea>
             <div ng-repeat="(key, value) in view">
                 <div>{{key}}: {{value}}</div>
             </div>

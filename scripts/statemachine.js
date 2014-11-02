@@ -182,3 +182,21 @@ joint.shapes.statemachine.parallel.prototype.info = {
     name: "Parallel",
     description: "some description some description some description some description some description"
 }
+
+joint.shapes.statemachine.Arrow = joint.dia.Link.extend({
+    arrowheadMarkup: [
+        '<g class="marker-arrowhead-group marker-arrowhead-group-<%= end %>">',
+        '<circle class="marker-arrowhead" end="<%= end %>" r="7"/>',
+        '</g>'
+    ].join(''),
+    defaults: joint.util.deepSupplement({
+        type: "statemachine.Arrow",
+        attrs: {
+            ".marker-target": {
+                d: "M 10 0 L 0 5 L 10 10 z"
+            }
+        },
+    //router: { name: 'manhattan' },
+    connector: { name: 'rounded' }
+    }, joint.dia.Link.prototype.defaults)
+});

@@ -75,6 +75,9 @@
                     pos.y = g.snapToGrid(pos.y, editorScope.view.grid);
 
                     var clone = this.clone();
+                    clone.prop("data/someProperty", "someValue");
+                    clone.prop("data/someOtherValue", 1);
+                    clone.prop("data/someList", ["a", "b", "c"]);
                     clone.set({
                         position: {
                             x: pos.x,
@@ -87,6 +90,27 @@
             }
 
             init();
+        }
+    };
+});
+
+app.directive("properties", function () {
+    return {
+        restrict: "C",
+        link: function (scope, element, attributes) {
+            var changeFocus = function() {
+                if (scope.view.selectionFocus)
+                {
+                    element.html("<pre>" + JSON.stringify(scope.view.selectionFocus.prop("data"), null, 2) + "</pre>");
+                    element.show();
+                }
+                else
+                {
+                    element.hide();
+                }
+            }
+
+            scope.$watchCollection("view.selectionFocus", changeFocus);
         }
     };
 });
@@ -119,6 +143,7 @@ app.directive("overlay", function () {
 
                     scope.clearSelection();
                     scope.addSelection(clone);
+                    scope.setFocus(clone);
                 },
                 removeLinks: function(e, scope, element)
                 {
@@ -135,7 +160,7 @@ app.directive("overlay", function () {
                     var paperElement = $(paper.el);
                     var graph = scope.graph;
 
-                    var link = new joint.dia.Link({
+                    var link = new joint.shapes.statemachine.Arrow({
                         source: {id: element.id},
                         target: {x: 0, y: 0},
                         attrs: {}
@@ -230,17 +255,18 @@ app.directive("overlay", function () {
                 e.stopPropagation();
 
                 var direction = $(this).attr("class");
+                var selectionFocus = scope.view.selectionFocus;
 
                 transformData = {
                     x: e.pageX,
                     y: e.pageY,
                     startPosition:{
-                        x: scope.view.selectionFocus.attributes.position.x,
-                        y: scope.view.selectionFocus.attributes.position.y
+                        x: selectionFocus.attributes.position.x,
+                        y: selectionFocus.attributes.position.y
                     },
                     startSize: {
-                        width: scope.view.selectionFocus.attributes.size.width,
-                        height: scope.view.selectionFocus.attributes.size.height
+                        width: selectionFocus.attributes.size.width,
+                        height: selectionFocus.attributes.size.height
                     },
                     transformApply: transformApply[direction]
                 }
@@ -270,58 +296,95 @@ app.directive("overlay", function () {
 
                 var transform = transformData.transformApply(diff);
 
-                scope.view.selectionFocus.resize(transform.width, transform.height);
-                scope.view.selectionFocus.position(transform.x, transform.y);
+                var selectionFocus = scope.view.selectionFocus;
+
+                selectionFocus.resize(transform.width, transform.height);
+                selectionFocus.position(transform.x, transform.y);
             }
 
-            var initMenu = function() {
-                menuElement.find("[data-toggle=tooltip]").tooltip();
-            }
-
-            var updatePosition = function()
+            var changeSelection = function()
             {
-                if (scope.view.selectionElements.length == 0)
+                if (scope.view.selectionElements.length > 0)
                 {
-                    return;
+                    selectionElement.show();
+                }
+                else
+                {
+                    selectionElement.hide();
                 }
 
-                var selectionFocus = scope.view.selectionFocus.attributes;
-                var scale = scope.view.scale;
+                update();
+            }
 
-                //menu
+            var changeFocus = function() {
+                if (scope.view.selectionFocus instanceof joint.dia.Element)
+                {
+                    menuElement.find("[data-toggle=tooltip]").tooltip();
+                    menuElement.show();
+                    transformElement.show();
+                }
+                else
+                {
+                    menuElement.hide();
+                    transformElement.hide();
+                }
+
+                update();
+            }
+
+            var update = function()
+            {
+                if (scope.view.selectionFocus instanceof joint.dia.Element)
+                {
+                    updateMenu();
+                    updateTransform();
+                }
+
+                if (scope.view.selectionElements.length > 0)
+                {
+                    updateSelection();
+                }
+            }
+
+            var updateMenu = function()
+            {
                 menuElement.css({
-                    fontSize: scale + "em",
-                    left: scale * selectionFocus.position.x,
-                    top: scale * (selectionFocus.position.y - 22),
-                    width: scale * selectionFocus.size.width
+                    fontSize: scope.view.scale + "em",
+                    left: scope.view.scale * scope.view.selectionFocus.attributes.position.x,
+                    top: scope.view.scale * (scope.view.selectionFocus.attributes.position.y - 24),
+                    width: scope.view.scale * scope.view.selectionFocus.attributes.size.width
                 });
+            }
 
-                //transform
+            var updateTransform = function()
+            {
                 transformElement.css({
-                    fontSize: scale + "em",
-                    left: scale * selectionFocus.position.x,
-                    top: scale * selectionFocus.position.y,
-                    width: scale * selectionFocus.size.width,
-                    height: scale * selectionFocus.size.height
+                    fontSize: scope.view.scale + "em",
+                    left: scope.view.scale * scope.view.selectionFocus.attributes.position.x,
+                    top: scope.view.scale * scope.view.selectionFocus.attributes.position.y,
+                    width: scope.view.scale * scope.view.selectionFocus.attributes.size.width,
+                    height: scope.view.scale * scope.view.selectionFocus.attributes.size.height
                 });
+            }
 
-                //selection
+            var updateSelection = function()
+            {
                 var bbox = scope.graph.getBBox(scope.view.selectionElements);
                 selectionElement.css({
-                    left: scale * bbox.x - 5,
-                    top: scale * bbox.y - 5,
-                    width: scale * bbox.width + 10,
-                    height: scale * bbox.height + 10
+                    left: scope.view.scale * bbox.x - 5,
+                    top: scope.view.scale * bbox.y - 5,
+                    width: scope.view.scale * bbox.width + 10,
+                    height: scope.view.scale * bbox.height + 10
                 });
             }
 
             transformElement.on("mousedown", "div", transformStart);
             menuElement.on("mousedown", "a", actionTrigger);
 
-            scope.graph.on("all", updatePosition);
-            scope.$watch("view.selectionFocus", initMenu);
-            scope.$watch("view.scale", updatePosition);
-            scope.$watchCollection("view.selectionElements", updatePosition);
+            scope.graph.on("change:position change:size", update);
+            scope.$watch("view.scale", update);
+            scope.$watchCollection("view.selectionElements", changeSelection);
+            scope.$watch("view.selectionFocus", changeFocus);
         }
     };
 });
@@ -385,6 +448,7 @@ app.directive("editor", function () {
                     }
 
                     scope.addSelection(cell);
+                    scope.setFocus(cell);
                 }
             }
 
@@ -453,8 +517,45 @@ app.directive("editor", function () {
                 }
             }
 
+            var dragLinkStart = function(cellView, evt, x, y)
+            {
+                var cell = cellView.model;
+
+                if (cell instanceof joint.dia.Link)
+                {
+                    scope.clearSelection();
+
+                    draggedLink = false;
+                }
+            }
+
+            var dragLinkEnd = function(cellView, evt, x, y)
+            {
+                var cell = cellView.model;
+
+                if (cell instanceof joint.dia.Link)
+                {
+                    if (!draggedLink)
+                    {
+                        scope.setFocus(cell);
+                    }
+                }
+            }
+
+            var dragLink = function(cellView, evt, x, y)
+            {
+                var cell = cellView.model;
+
+                if (cell instanceof joint.dia.Link)
+                {
+                    draggedLink = true;
+                }
+            }
+
             var dragPaperStart = function(e)
             {
+                scope.clearSelection();
+
                 dragPaperData = {
                     scrollContainer: $("#editor").parent(),
                     x: e.pageX,
@@ -546,15 +647,19 @@ app.directive("editor", function () {
 
             scope.paper.on("all", scope.update);
 
+            //element actions
             scope.paper.on("cell:pointerdown", dragElementStart);
             scope.paper.on("cell:pointerup", dragElementEnd);
             scope.paper.on("cell:pointermove", dragElement);
-
-            scope.paper.on("blank:pointerdown", scope.clearSelection);
-
             scope.paper.on("cell:pointerdown", unembedElement);
             scope.paper.on("cell:pointerup", embedElement);
 
+            //link actions
+            scope.paper.on("cell:pointerdown", dragLinkStart);
+            scope.paper.on("cell:pointerup", dragLinkEnd);
+            scope.paper.on("cell:pointermove", dragLink);
+
+            //paper actions
             scope.paper.on("blank:pointerdown", dragPaperStart);
             scope.paper.on("blank:pointerup", dragPaperEnd);
         }

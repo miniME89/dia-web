@@ -88,8 +88,6 @@ app.controller("EditorController", function ($scope) {
 
     $scope.addSelection = function(element)
     {
-        $scope.view.selectionFocus = element;
-
         for (var i = 0; i < $scope.view.selectionElements.length; i++) {
             if ($scope.view.selectionElements[i].id == element.id)
             {
@@ -109,7 +107,7 @@ app.controller("EditorController", function ($scope) {
 
                 if ($scope.view.selectionFocus.id == element.id)
                 {
-                    $scope.view.selectionFocus = $scope.view.selectionElements[0];
+                    $scope.setFocus($scope.view.selectionElements[0]);
                 }
 
                 return;
@@ -120,6 +118,16 @@ app.controller("EditorController", function ($scope) {
     $scope.clearSelection = function()
     {
         $scope.view.selectionElements = [];
+        $scope.view.selectionFocus = null;
+    }
+
+    $scope.setFocus = function(cell)
+    {
+        $scope.view.selectionFocus = cell;
+    }
+
+    $scope.clearFocus = function()
+    {
         $scope.view.selectionFocus = null;
     }
 
