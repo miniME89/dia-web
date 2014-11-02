@@ -389,25 +389,6 @@ app.directive("overlay", function () {
     };
 });
 
-app.directive("editorOverview", function () {
-    return {
-        restrict: "C",
-        link: function (scope, element, attributes) {
-            //create paper
-            scope.paperOverview = new joint.dia.Paper({
-                el: element,
-                width: "100%",
-                height: "100%",
-                model: scope.graph,
-                gridSize: 1
-            });
-
-            scope.paperOverview.scale(0.2);
-            scope.paperOverview.$el.css("pointer-events", "none");
-        }
-    };
-});
-
 app.directive("editor", function () {
     return {
         restrict: "C",
