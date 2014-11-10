@@ -122,6 +122,7 @@ app.directive("overlay", function () {
             var menuElement = element.find(".menu");
             var transformElement = element.find(".transform");
             var selectionElement = element.find(".selection");
+            var selectionBounds = null;
 
             var actions = {
                 removeElement: function(e, scope, element)
@@ -298,8 +299,32 @@ app.directive("overlay", function () {
 
                 var selectionFocus = scope.view.selectionFocus;
 
-                selectionFocus.resize(transform.width, transform.height);
                 selectionFocus.position(transform.x, transform.y);
+                selectionFocus.resize(transform.width, transform.height);
+            }
+
+            var changeScale = function()
+            {
+                changeSize();
+                changePosition(scope.view.selectionFocus);
+            }
+
+            var changeFocus = function()
+            {
+                if (scope.view.selectionFocus instanceof joint.dia.Element)
+                {
+                    menuElement.find("[data-toggle=tooltip]").tooltip();
+                    menuElement.show();
+                    transformElement.show();
+                }
+                else
+                {
+                    menuElement.hide();
+                    transformElement.hide();
+                }
+
+                changeSize();
+                changePosition(scope.view.selectionFocus);
             }
 
             var changeSelection = function()
@@ -313,78 +338,87 @@ app.directive("overlay", function () {
                     selectionElement.hide();
                 }
 
-                update();
+                changeSize();
+                changePosition(scope.view.selectionFocus);
             }
 
-            var changeFocus = function() {
-                if (scope.view.selectionFocus instanceof joint.dia.Element)
-                {
-                    menuElement.find("[data-toggle=tooltip]").tooltip();
-                    menuElement.show();
-                    transformElement.show();
-                }
-                else
-                {
-                    menuElement.hide();
-                    transformElement.hide();
-                }
-
-                update();
-            }
-
-            var update = function()
+            var changeSize = function()
             {
                 if (scope.view.selectionFocus instanceof joint.dia.Element)
                 {
-                    updateMenu();
-                    updateTransform();
+                    selectionBounds = scope.graph.getBBox(scope.view.selectionElements);
+
+                    if (scope.view.selectionFocus instanceof joint.dia.Element)
+                    {
+                        selectionBounds.startPosition = {
+                            x: scope.view.selectionFocus.attributes.position.x,
+                            y: scope.view.selectionFocus.attributes.position.y
+                        };
+                    }
+
+                    changePosition(scope.view.selectionFocus);
+                }
+            }
+
+            var changePosition = function(cell)
+            {
+                if (!scope.view.selectionFocus || !cell)
+                {
+                    return;
+                }
+
+                if (cell.id != scope.view.selectionFocus.id)
+                {
+                    return;
+                }
+
+                if (scope.view.selectionFocus instanceof joint.dia.Element)
+                {
+                    //update menu
+                    menuElement.css({
+                        fontSize: scope.view.scale + "em",
+                        left: scope.view.scale * scope.view.selectionFocus.attributes.position.x,
+                        top: scope.view.scale * (scope.view.selectionFocus.attributes.position.y - 24),
+                        width: scope.view.scale * scope.view.selectionFocus.attributes.size.width
+                    });
+
+                    //update transform
+                    transformElement.css({
+                        fontSize: scope.view.scale + "em",
+                        left: scope.view.scale * scope.view.selectionFocus.attributes.position.x,
+                        top: scope.view.scale * scope.view.selectionFocus.attributes.position.y,
+                        width: scope.view.scale * scope.view.selectionFocus.attributes.size.width,
+                        height: scope.view.scale * scope.view.selectionFocus.attributes.size.height
+                    });
                 }
 
                 if (scope.view.selectionElements.length > 0)
                 {
-                    updateSelection();
+                    var diff = {
+                        x: (selectionBounds.startPosition.x - scope.view.selectionFocus.attributes.position.x),
+                        y: (selectionBounds.startPosition.y - scope.view.selectionFocus.attributes.position.y)
+                    };
+
+                    //update selection
+                    selectionElement.css({
+                        left: scope.view.scale * (selectionBounds.x - diff.x) - 5,
+                        top: scope.view.scale * (selectionBounds.y - diff.y) - 5,
+                        width: scope.view.scale * selectionBounds.width + 10,
+                        height: scope.view.scale * selectionBounds.height + 10
+                    });
                 }
             }
 
-            var updateMenu = function()
-            {
-                menuElement.css({
-                    fontSize: scope.view.scale + "em",
-                    left: scope.view.scale * scope.view.selectionFocus.attributes.position.x,
-                    top: scope.view.scale * (scope.view.selectionFocus.attributes.position.y - 24),
-                    width: scope.view.scale * scope.view.selectionFocus.attributes.size.width
-                });
-            }
-
-            var updateTransform = function()
-            {
-                transformElement.css({
-                    fontSize: scope.view.scale + "em",
-                    left: scope.view.scale * scope.view.selectionFocus.attributes.position.x,
-                    top: scope.view.scale * scope.view.selectionFocus.attributes.position.y,
-                    width: scope.view.scale * scope.view.selectionFocus.attributes.size.width,
-                    height: scope.view.scale * scope.view.selectionFocus.attributes.size.height
-                });
-            }
-
-            var updateSelection = function()
-            {
-                var bbox = scope.graph.getBBox(scope.view.selectionElements);
-                selectionElement.css({
-                    left: scope.view.scale * bbox.x - 5,
-                    top: scope.view.scale * bbox.y - 5,
-                    width: scope.view.scale * bbox.width + 10,
-                    height: scope.view.scale * bbox.height + 10
-                });
-            }
-
+            //menu + transform buttons
             transformElement.on("mousedown", "div", transformStart);
             menuElement.on("mousedown", "a", actionTrigger);
 
-            scope.graph.on("change:position change:size", update);
-            scope.$watch("view.scale", update);
-            scope.$watchCollection("view.selectionElements", changeSelection);
+            //events
+            scope.graph.on("change:position", changePosition);
+            scope.graph.on("change:size", changeSize);
+            scope.$watch("view.scale", changeScale);
             scope.$watch("view.selectionFocus", changeFocus);
+            scope.$watchCollection("view.selectionElements", changeSelection);
         }
     };
 });

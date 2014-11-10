@@ -94,11 +94,18 @@
     </div>
 
     <div class="sidebar">
-        <div class="header">Editor</div>
-        <div class="body" style="overflow: hidden; white-space: nowrap;"><!-- -->
-            <textarea rows="10" style="width: 100%;" ng-bind="graph.toJSON() | json"></textarea>
-            <div ng-repeat="(key, value) in view">
-                <div>{{key}}: {{value}}</div>
+        <div class="header">Debug</div>
+        <div class="body" style="overflow: hidden; white-space: nowrap;">
+            <div class="checkbox">
+                <label>
+                    <input type="checkbox" ng-model="debug"> Debug
+                </label>
+            </div>
+            <div ng-if="debug">
+                <textarea rows="10" style="width: 100%;" ng-bind="graph.toJSON() | json"></textarea>
+                <div ng-repeat="(key, value) in view">
+                    <div>{{key}}: {{value}}</div>
+                </div>
             </div>
         </div>
     </div>

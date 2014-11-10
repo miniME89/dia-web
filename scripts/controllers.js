@@ -70,6 +70,8 @@ app.controller("ToolbarController", function ($scope) {
 app.controller("EditorController", function ($scope) {
     var init = function()
     {
+        $scope.debug = true;
+
         $scope.view = {
             selectionElements: [],
             selectionFocus: null,
