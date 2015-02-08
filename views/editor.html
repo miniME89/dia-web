@@ -4,20 +4,21 @@
     <div class="sidebar">
         <div class="header">Elements</div>
         <div class="body">
-            <!-- state machine elements -->
+            <!-- elements filter -->
             <div class="input-group input-group-sm" style="width: 100%">
                 <input type="text" placeholder="Search" class="form-control borderless" ng-model="stencilFilter">
                 <span class="input-group-btn" ng-show="stencilFilter.length">
                     <button type="button" class="btn btn-primary borderless" ng-click="stencilFilter = ''"><span class="fa fa-remove"></span></button>
                 </span>
             </div>
+            <!-- stencils -->
             <div class="stencils" ng-controller="StencilsController">
                 <div class="group" ng-if="group.stencils.length > 0" ng-repeat="group in groups | stencils:stencilFilter">
                     <div class="header" ng-click="closed = !closed">
                         <span class="fa fa-fw" ng-class="{'fa-caret-down': !closed, 'fa-caret-right': closed}"></span> {{group.name}}
                     </div>
                     <div class="body" ng-show="!closed">
-                        <div class="stencil" data-toggle="popover" data-original-title="{{stencil.info.name}}" data-content="{{stencil.info.description}}" ng-repeat="stencil in group.stencils"></div>
+                        <div class="stencil" data-toggle="popover" data-original-title="{{stencil.attributes.name}}" data-content="{{stencil.attributes.description}}" ng-repeat="stencil in group.stencils"></div>
                     </div>
                 </div>
             </div>
@@ -62,14 +63,14 @@
             <div class="overlay">
                 <!-- menu -->
                 <div class="menu">
-                    <a data-toggle="tooltip" data-original-title="{{menuItem.title}}" data-action="{{menuItem.action}}" ng-repeat="menuItem in view.selectionFocus.attributes.menu">
-                        <span class="{{menuItem.icon}}"></span>
+                    <a data-toggle="tooltip" data-original-title="{{menu.title}}" ng-mousedown="$event.stopPropagation(); menu.action($event, $parent, view.selectionFocus);" ng-repeat="menu in view.selectionFocus.attributes.menu">
+                        <span class="{{menu.icon}}"></span>
                     </a>
                 </div>
 
                 <!-- transform -->
                 <div class="transform">
-                <div class="tl"><span class="fa fa-square"></span></div>
+                    <div class="tl"><span class="fa fa-square"></span></div>
                     <div class="tr"><span class="fa fa-square"></span></div>
                     <div class="bl"><span class="fa fa-square"></span></div>
                     <div class="br"><span class="fa fa-square"></span></div>
@@ -86,13 +87,17 @@
 <!-- column: right -->
 <div class="column right">
 
+    <!-- properties -->
     <div class="sidebar">
         <div class="header">Properties</div>
         <div class="body">
-            <div class="properties">t</div>
+            <div class="properties">
+                <div ng-repeat="(category, properties) in view.selectionFocus.attributes.properties">{{category}}</div>
+            </div>
         </div>
     </div>
 
+    <!-- debug -->
     <div class="sidebar">
         <div class="header">Debug</div>
         <div class="body" style="overflow: hidden; white-space: nowrap;">
