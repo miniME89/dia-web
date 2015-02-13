@@ -1,1 +1,1 @@
-var app = angular.module("app", ["ngRoute"]);
+var app = angular.module('app', ['ngRoute', 'ui.bootstrap', 'ui.sortable', 'LocalStorageModule']);

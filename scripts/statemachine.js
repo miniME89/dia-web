@@ -98,6 +98,7 @@ joint.shapes.statemachine.initial = joint.dia.Element.extend({
         fill: "black"
       }
     },
+    resizable: false,
     menu: [{
       visible: true,
       icon: "fa fa-times fa-lg",
@@ -138,6 +139,7 @@ joint.shapes.statemachine.final = joint.dia.Element.extend({
         fill: "#000000"
       }
     },
+    resizable: false,
     menu: [{
       visible: true,
       icon: "fa fa-times fa-lg",
@@ -180,6 +182,7 @@ joint.shapes.statemachine.composite = joint.dia.Element.extend({
         "y-alignment": "middle"
       },
     },
+    resizable: true,
     menu: [{
       visible: true,
       icon: "fa fa-times fa-lg",
@@ -227,6 +230,7 @@ joint.shapes.statemachine.parallel = joint.dia.Element.extend({
         "y-alignment": "middle"
       },
     },
+    resizable: true,
     menu: [{
       visible: true,
       icon: "fa fa-times fa-lg",
@@ -271,7 +275,7 @@ joint.shapes.statemachine.invoke = joint.dia.Element.extend({
         points: "100,0 100,60 0,60 0,0"
       },
       text: {
-        text: "Composite",
+        text: "Invoke",
         ref: ".outer",
         "ref-x": .5,
         "ref-y": .5,
@@ -279,6 +283,7 @@ joint.shapes.statemachine.invoke = joint.dia.Element.extend({
         "y-alignment": "middle"
       },
     },
+    resizable: true,
     menu: [{
       visible: true,
       icon: "fa fa-times fa-lg",
@@ -318,3 +323,36 @@ joint.shapes.statemachine.Transition = joint.dia.Link.extend({
     }
   }, joint.dia.Link.prototype.defaults)
 });
+
+joint.dia.Graph.prototype.toJSONTree = function() {
+  var cells = this.toJSON().cells;
+  var root = [];
+  for (var i = 0; i < cells.length; i++) {
+    //transition
+    if (cells[i].type == 'statemachine.Transition') {
+      //find source
+      for (var j = 0; j < cells.length; j++) {
+        if (cells[i].source.id === cells[j].id) {
+          cells[j].transitions = cells[j].transitions || [];
+          cells[j].transitions.push(cells[i]);
+        }
+      }
+    }
+    //state with parent
+    else if (cells[i].parent) {
+      //find parent
+      for (var j = 0; j < cells.length; j++) {
+        if (cells[i].parent === cells[j].id) {
+          cells[j].children = cells[j].children || [];
+          cells[j].children.push(cells[i]);
+        }
+      }
+    }
+    //root state
+    else {
+      root.push(cells[i]);
+    }
+  }
+
+  return root;
+}

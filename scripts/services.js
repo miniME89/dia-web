@@ -1,17 +1,46 @@
 app.service('ServerService', function($http) {
-    var service = {};
+  var service = {};
 
-    service.getApplications = function() {
-        return $http.get('/server/applications').then(function(response) {
-            return response.data.applications;
-        });
+  service.getApplications = function() {
+    return $http.get('/server/applications').then(function(response) {
+      return response.data.applications;
+    });
+  };
+
+  service.getApplication = function(applicationId) {
+    return $http.get('/server/applications/' + applicationId).then(function(response) {
+      return response.data;
+    });
+  };
+
+  return service;
+});
+
+app.service('LayoutService', function(localStorageService) {
+  var service = {};
+
+  service.loadDefault = function() {
+    return {
+      column: {
+        left: {
+          views: ['elements'],
+          closed: false
+        },
+        right: {
+          views: ['endpoint', 'input-parameters', 'output-parameters', 'dataflows'],
+          closed: false
+        }
+      }
     };
+  };
 
-    service.getApplication = function(applicationId) {
-        return $http.get('/server/applications/' + applicationId).then(function(response) {
-            return response.data;
-        });
-    };
+  service.load = function() {
+    return localStorageService.get('layout') || service.loadDefault();
+  };
 
-    return service;
+  service.save = function(layout) {
+    localStorageService.set('layout', layout);
+  }
+
+  return service;
 });

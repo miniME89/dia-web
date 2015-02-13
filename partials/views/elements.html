@@ -1,0 +1,24 @@
+<div>
+  <div class="view-header">Elements</div>
+  <div class="view-body">
+    <!-- filter -->
+    <div class="input-group input-group-sm" style="width: 100%">
+      <input type="text" placeholder="Search" class="form-control borderless" ng-model="elementFilter">
+      <span class="input-group-btn" ng-show="elementFilter.length">
+        <button type="button" class="btn btn-primary borderless" ng-click="elementFilter = ''"><span class="fa fa-remove"></span>
+      </button>
+      </span>
+    </div>
+    <!-- elements -->
+    <div class="elements" ng-controller="ElementsController">
+      <div class="group" ng-if="group.elements.length > 0" ng-repeat="group in groups | elementsFilter:elementFilter">
+        <div class="header" ng-click="closed = !closed">
+          <span class="fa fa-fw" ng-class="{'fa-caret-down': !closed, 'fa-caret-right': closed}"></span> {{group.name}}
+        </div>
+        <div class="body" ng-show="!closed">
+          <div class="element" data-toggle="popover" data-original-title="{{element.attributes.name}}" data-content="{{element.attributes.description}}" ng-repeat="element in group.elements"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
