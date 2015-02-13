@@ -15,23 +15,23 @@
     <h2>Example page header <small>Subtext for header</small></h2>
   </div>
 
-  <!-- content -->
-  <div class="content" ng-controller="LayoutController">
-    <!-- column: left -->
-    <div class="column left" ng-controller="ViewController" ng-class="{'closed': layout.column.left.closed}">
-      <div class="column-header">
-        <button type="button" class="btn btn-xs btn-default" ng-click="layout.column.left.closed=!layout.column.left.closed">
-          <span class="fa" ng-class="{'fa-angle-left': !layout.column.left.closed, 'fa-angle-right': layout.column.left.closed}"></span>
+  <!-- layout -->
+  <div class="layout" ng-controller="LayoutController">
+    <!-- sidebar: left -->
+    <div class="sidebar left" ng-controller="ViewController" ng-class="{'closed': layout.sidebar.left.closed}">
+      <div class="sidebar-header">
+        <button type="button" class="btn btn-xs btn-default" ng-click="layout.sidebar.left.closed=!layout.sidebar.left.closed">
+          <span class="fa" ng-class="{'fa-angle-left': !layout.sidebar.left.closed, 'fa-angle-right': layout.sidebar.left.closed}"></span>
         </button>
       </div>
-      <div class="column-body sortable" ng-model="layout.column.left.views" ui-sortable="sortableOptions">
-        <div class="view" ng-repeat="v in layout.column.left.views" ng-include="'partials/views/' + v + '.html'"></div>
+      <div class="sidebar-body sortable" ng-model="layout.sidebar.left.views" ui-sortable="sortableOptions">
+        <div class="view" ng-repeat="v in layout.sidebar.left.views" ng-include="'partials/views/' + v + '.html'"></div>
         <button type="button" class="btn btn-default" ng-click="saveXml()">Save</button>
       </div>
     </div>
 
-    <!-- column: center -->
-    <div class="column center" ng-class="{'closed-left': layout.column.left.closed, 'closed-right': layout.column.right.closed}">
+    <!-- main -->
+    <div class="main" ng-class="{'closed-left': layout.sidebar.left.closed, 'closed-right': layout.sidebar.right.closed, 'closed-bottom': layout.bottombar.closed}">
       <div class="toolbar form-inline" role="toolbar" ng-controller="ToolbarController">
         <div class="btn-group btn-group">
           <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
@@ -54,35 +54,40 @@
       </div>
     </div>
 
-    <!-- column: right -->
-    <div class="column right" ng-controller="ViewController" ng-class="{'closed': layout.column.right.closed}">
-      <div class="column-header">
-        <button type="button" class="btn btn-xs btn-default" ng-click="layout.column.right.closed=!layout.column.right.closed">
-          <span class="fa" ng-class="{'fa-angle-right': !layout.column.right.closed, 'fa-angle-left': layout.column.right.closed}"></span>
+    <!-- bottombar -->
+    <div class="bottombar" ng-class="{'closed': layout.bottombar.closed, 'closed-left': layout.sidebar.left.closed, 'closed-right': layout.sidebar.right.closed}">
+      <div class="bottombar-header">
+        <button type="button" class="btn btn-xs btn-default" ng-click="layout.bottombar.closed=!layout.bottombar.closed">
+          <span class="fa" ng-class="{'fa-angle-down': !layout.bottombar.closed, 'fa-angle-up': layout.bottombar.closed}"></span>
         </button>
       </div>
-      <div class="column-body sortable" ng-model="layout.column.right.views" ui-sortable="sortableOptions">
-        <div class="view" ng-repeat="v in layout.column.right.views" ng-include="'partials/views/' + v + '.html'"></div>
+      <div class="bottombar-body">
+      </div>
+    </div>
+
+    <!-- sidebar: right -->
+    <div class="sidebar right" ng-controller="ViewController" ng-class="{'closed': layout.sidebar.right.closed}">
+      <div class="sidebar-header">
+        <button type="button" class="btn btn-xs btn-default" ng-click="layout.sidebar.right.closed=!layout.sidebar.right.closed">
+          <span class="fa" ng-class="{'fa-angle-right': !layout.sidebar.right.closed, 'fa-angle-left': layout.sidebar.right.closed}"></span>
+        </button>
+      </div>
+      <div class="sidebar-body sortable" ng-model="layout.sidebar.right.views" ui-sortable="sortableOptions">
+        <div class="view" ng-repeat="v in layout.sidebar.right.views" ng-include="'partials/views/' + v + '.html'"></div>
       </div>
     </div>
   </div>
 
-  <!-- jquery -->
+  <!-- dependencies -->
   <script src="bower_components/jquery/dist/jquery.js" type="text/javascript"></script>
   <script src="bower_components/jquery-ui/jquery-ui.js" type="text/javascript"></script>
-
-  <!-- bootstrap -->
   <script src="bower_components/bootstrap/dist/js/bootstrap.js"></script>
   <script src="bower_components/bootbox/bootbox.js"></script>
-
-  <!-- angular -->
   <script src="bower_components/angular/angular.js"></script>
   <script src="bower_components/angular-route/angular-route.js"></script>
   <script src="bower_components/angular-ui-sortable/sortable.js"></script>
   <script src="bower_components/angular-local-storage/dist/angular-local-storage.js"></script>
   <script src="bower_components/angular-bootstrap/ui-bootstrap.js"></script>
-
-  <!-- jointjs -->
   <script src="bower_components/joint/dist/joint.nojquery.js" type="text/javascript"></script>
 
   <!-- app -->

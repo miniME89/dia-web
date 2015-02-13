@@ -21,7 +21,7 @@ app.service('LayoutService', function(localStorageService) {
 
   service.loadDefault = function() {
     return {
-      column: {
+      sidebar: {
         left: {
           views: ['elements'],
           closed: false
@@ -30,6 +30,9 @@ app.service('LayoutService', function(localStorageService) {
           views: ['endpoint', 'input-parameters', 'output-parameters', 'dataflows'],
           closed: false
         }
+      },
+      bottombar: {
+        closed: false
       }
     };
   };
