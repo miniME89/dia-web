@@ -1,7 +1,7 @@
 app.directive("parameterEditor", function($rootScope, $compile, $rootScope) {
   return {
     restrict: "A",
-    templateUrl: 'partials/parameter-editor.html',
+    templateUrl: 'commons/parameter-editor/parameter-editor.html',
     replace: true,
     scope: {
       key: '=',

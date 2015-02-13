@@ -1,21 +1,3 @@
-app.service('ServerService', function($http) {
-  var service = {};
-
-  service.getApplications = function() {
-    return $http.get('/server/applications').then(function(response) {
-      return response.data.applications;
-    });
-  };
-
-  service.getApplication = function(applicationId) {
-    return $http.get('/server/applications/' + applicationId).then(function(response) {
-      return response.data;
-    });
-  };
-
-  return service;
-});
-
 app.service('LayoutService', function(localStorageService) {
   var service = {};
 
@@ -23,7 +5,7 @@ app.service('LayoutService', function(localStorageService) {
     return {
       sidebar: {
         left: {
-          views: ['elements'],
+          views: ['elements', 'statemachine'],
           closed: false
         },
         right: {

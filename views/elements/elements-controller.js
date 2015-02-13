@@ -1,4 +1,4 @@
-app.controller("ElementsController", function($rootScope, $scope, ServerService) {
+app.controller("ElementsController", function($rootScope, $scope, ApplicationDiscoveryService) {
   var init = function() {
     $scope.groups = {};
 
@@ -24,7 +24,7 @@ app.controller("ElementsController", function($rootScope, $scope, ServerService)
   };
 
   $scope.update = function() {
-    ServerService.getApplications().then(function(applications) {
+    ApplicationDiscoveryService.getApplications().then(function(applications) {
       for (var i = 0; i < applications.length; i++) {
         var state = new joint.shapes.statemachine.invoke({
           name: applications[i].name,

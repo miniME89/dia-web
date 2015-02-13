@@ -1,7 +1,7 @@
 app.directive("overlay", function() {
   return {
     restrict: "C",
-    templateUrl: 'partials/overlay.html',
+    templateUrl: 'views/editor/overlay/overlay.html',
     link: function(scope, element, attributes) {
       var menuElement = element.find(".menu");
       var transformElement = element.find(".transform");

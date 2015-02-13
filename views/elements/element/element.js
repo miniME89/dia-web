@@ -1,6 +1,11 @@
 app.directive("element", function() {
   return {
-    restrict: "C",
+    restrict: "A",
+    templateUrl: 'views/elements/element/element.html',
+    replace: true,
+    scope: {
+      element: "="
+    },
     link: function(scope, element, attributes) {
       var init = function() {
         var graph = new joint.dia.Graph;

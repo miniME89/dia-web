@@ -1,8 +1,12 @@
-app.controller("EditorController", function($scope) {
+app.controller("EditorController", function($rootScope, $scope) {
   var init = function() {
     $scope.debug = true;
 
-    $scope.view = {
+    $scope.toolbar = {
+      scaleOptions: [0.25, 0.5, 1.0, 1.5, 2.0, 3.0]
+    };
+
+    $rootScope.view = {
       selectionElements: [],
       selectionFocus: null,
       size: {
@@ -14,7 +18,8 @@ app.controller("EditorController", function($scope) {
       grid: 10
     };
 
-    $scope.graph = new joint.dia.Graph;
+    $rootScope.graph = new joint.dia.Graph;
+
     $scope.graph.on("all", $scope.update);
   }
 

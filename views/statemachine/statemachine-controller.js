@@ -1,20 +1,4 @@
-app.controller("LayoutController", function($scope, LayoutService) {
-  var init = function() {
-    $scope.loadLayout();
-  }
-
-  $scope.loadDefaultLayout = function() {
-    $scope.layout = LayoutService.loadDefault();
-  };
-
-  $scope.loadLayout = function() {
-    $scope.layout = LayoutService.load();
-  };
-
-  $scope.saveLayout = function() {
-    LayoutService.save($scope.layout);
-  };
-
+app.controller("StatemachineController", function($scope) {
   $scope.saveXml = function() {
     var parse = {
       children: function(children) {
@@ -111,9 +95,4 @@ app.controller("LayoutController", function($scope, LayoutService) {
     console.log(xml);
   };
 
-  $scope.$watch('layout', function(newValue, oldValue) {
-    $scope.saveLayout(newValue);
-  }, true);
-
-  init();
 });

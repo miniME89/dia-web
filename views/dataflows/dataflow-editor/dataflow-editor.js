@@ -5,7 +5,7 @@ app.directive("dataflowEditor", function() {
     scope: {
       dataflows: '='
     },
-    templateUrl: 'partials/dataflow-editor.html',
+    templateUrl: 'views/dataflows/dataflow-editor/dataflow-editor.html',
     controller: function($scope) {
       $scope.add = function() {
         $scope.dataflows.push({

@@ -1,7 +1,6 @@
 app.directive("editor", function() {
   return {
     restrict: "C",
-    controller: "EditorController",
     link: function(scope, element, attributes) {
       var init = function() {
         //create paper
