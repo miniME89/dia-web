@@ -1,4 +1,4 @@
-app.controller("StatemachineController", function($scope) {
+app.controller("StatemachineControlController", function($scope, StatemachineExecutorService) {
   $scope.saveXml = function() {
     var parse = {
       children: function(children) {
@@ -93,6 +93,16 @@ app.controller("StatemachineController", function($scope) {
     var xml = document.createElement("statemachine");
     xml.appendChild(parse['children'](cells));
     console.log(xml);
+  };
+
+  $scope.start = function() {
+    console.log('start');
+    StatemachineExecutorService.start();
+  };
+
+  $scope.stop = function() {
+    console.log('stop');
+    StatemachineExecutorService.stop();
   };
 
 });

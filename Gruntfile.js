@@ -56,11 +56,6 @@ module.exports = function(grunt) {
           livereload: true
         }
       }
-    },
-    bower: {
-      install: {
-
-      }
     }
   });
 

@@ -5,7 +5,7 @@ app.service('LayoutService', function(localStorageService) {
     return {
       sidebar: {
         left: {
-          views: ['elements', 'statemachine'],
+          views: ['elements', 'statemachine-control'],
           closed: false
         },
         right: {

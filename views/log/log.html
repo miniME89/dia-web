@@ -1,0 +1,76 @@
+<div ng-controller="LogController">
+  <div class="view-body">
+      <table class="log table table-striped table-condensed">
+      <thead>
+        <tr>
+          <th width="4%">#</th>
+          <th width="8%">Level</th>
+          <th width="8%">Scope</th>
+          <th width="80%">
+            Message
+            <div class="options pull-right">
+              <div class="filter dropup">
+                <button type="button" class="btn btn-xs btn-default" data-toggle="dropdown" aria-expanded="true">
+                  <span class="fa fa-filter"></span> Filter
+                </button>
+                <ul class="dropdown-menu dropdown-menu-right" role="menu" ng-click="$event.stopPropagation()">
+                  <li>
+                    <div class="row">
+                      <div class="col-md-3">
+                        Level
+                      </div>
+                      <div class="col-md-9">
+                        <label ng-repeat="(key, value) in levels">
+                          <input type="checkbox" ng-model="filter.levels[key]">
+                          {{value}}
+                        </label>
+                      </div>
+                    </div>
+                    <div class="row">
+                      <div class="col-md-3">
+                        Scope
+                      </div>
+                      <div class="col-md-9">
+                        <input type="text" class="form-control" ng-model="filter.scope">
+                      </div>
+                    </div>
+                    <div class="row">
+                      <div class="col-md-3">
+                        Message
+                      </div>
+                      <div class="col-md-9">
+                        <input type="text" class="form-control" ng-model="filter.message">
+                      </div>
+                    </div>
+                    <div class="row">
+                      <div class="col-md-3"></div>
+                      <div class="col-md-9">
+                        <button type="button"class="btn btn-default" ng-click="filterLogReset()">Reset</button>
+                      </div>
+                    </div>
+                  </li>
+                </ul>
+              </div>
+              <button type="button" class="btn btn-xs btn-default" ng-click="clearLog()">
+                <span class="fa fa-trash-o"></span> Clear
+              </button>
+            </div>
+          </th>
+        </tr>
+      </thead>
+    </table>
+    <div class="scrollable">
+      <table class="log table table-striped table-condensed">
+        <tbody>
+          <tr class="level-{{log.level}}" ng-repeat="log in logs | filter:filterLog">
+            <td width="4%">{{countLogs - $index}}</td>
+            <td width="8%">{{levels[log.level]}}</td>
+            <td width="8%">{{log.scope}}</td>
+            <td width="80%">{{log.message}}</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="log level{{log.level}}"></div>
+  </div>
+</div>
