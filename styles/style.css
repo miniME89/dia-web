@@ -34,8 +34,13 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 .layout {
-  height: 100%;
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 0;
+  bottom: 0;
   padding-top: 43px;
+  overflow: hidden;
 }
 
 .popover {
@@ -132,7 +137,7 @@ h1, h2, h3, h4, h5, h6 {
   left: 300px;
   right: 300px;
   top: 43px;
-  bottom: 220px;
+  bottom: 250px;
   padding: 0;
   margin: 0;
   z-index: 1002;
@@ -171,8 +176,13 @@ h1, h2, h3, h4, h5, h6 {
   padding: 1px;
 }
 
+.sidebar .sidebar-header > * {
+  display: inline-block;
+}
+
 .sidebar .sidebar-body {
   height: calc(100% - 26px);
+  overflow-x: hidden;
   overflow-y: auto;
 }
 
@@ -190,7 +200,7 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 .sidebar.left.closed {
-  width: 20px;
+  left: -280px;
 }
 
 .sidebar.left.closed .sidebar-body {
@@ -212,7 +222,7 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 .sidebar.right.closed {
-  width: 20px;
+  right: -280px;
 }
 
 .sidebar.right.closed .sidebar-body {
@@ -265,11 +275,14 @@ h1, h2, h3, h4, h5, h6 {
            view
 ******************************/
 .view {
-
+  background-color: #FFFFFF;
+  border-bottom: 1px solid #ddd;
+  min-height: 100px;
+  margin-bottom: 10px;
 }
 
-.view.ui-sortable-helper {
-  border-left: 1px solid #ddd;
+.ui-sortable-helper {
+  border: 1px solid #ddd;
   box-shadow: 0px 0px 10px 2px rgba(50, 50, 50, 0.3);
   max-width: 300px !important;
 }
@@ -286,10 +299,14 @@ h1, h2, h3, h4, h5, h6 {
 .view .view-body {
   background-color: rgb(252, 252, 252);
   padding: 0;
-  margin-bottom: 5px;
 }
 
 .view .view-body.padding {
+  padding: 5px;
+}
+
+.views-list > .dropdown-menu {
+  width: 200px;
   padding: 5px;
 }
 
@@ -476,4 +493,31 @@ h1, h2, h3, h4, h5, h6 {
   width: 300px;
   padding: 10px;
   padding-bottom: 5px;
+}
+
+/*****************************
+           states
+******************************/
+.statemachine.active rect
+{
+    -webkit-transition: fill 100ms ease-in;
+    -moz-transition: fill 100ms ease-in;
+    -o-transition: fill 100ms ease-in;
+    -ms-transition: fill 100ms ease-in;
+    transition: fill 100ms ease-in;
+    fill: rgb(200, 255, 200);
+}
+
+.statemachine.inactive rect
+{
+}
+
+.statemachine.finished rect
+{
+    -webkit-transition: fill 100ms ease-in;
+    -moz-transition: fill 100ms ease-in;
+    -o-transition: fill 100ms ease-in;
+    -ms-transition: fill 100ms ease-in;
+    transition: fill 100ms ease-in;
+    fill: rgb(255, 200, 200);
 }

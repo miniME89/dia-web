@@ -49,20 +49,20 @@ joint.shapes.statemachine.menuActions = {
     var editor = $("#editor");
     var posPaperElement = paperElement.offset();
     var pos = {
-      x: ((e.pageX - posPaperElement.left) / editor.width()) * scope.view.size.width,
-      y: ((e.pageY - posPaperElement.top) / editor.height()) * scope.view.size.height
+      x: ((e.pageX - posPaperElement.left) / editor.width()) * scope.editor.size.width,
+      y: ((e.pageY - posPaperElement.top) / editor.height()) * scope.editor.size.height
     };
     linkView.startArrowheadMove("target");
     linkView.pointermove(e, pos.x, pos.y);
 
     var drag = function(e) {
       var pos = {
-        x: ((e.pageX - posPaperElement.left) / editor.width()) * scope.view.size.width,
-        y: ((e.pageY - posPaperElement.top) / editor.height()) * scope.view.size.height
+        x: ((e.pageX - posPaperElement.left) / editor.width()) * scope.editor.size.width,
+        y: ((e.pageY - posPaperElement.top) / editor.height()) * scope.editor.size.height
       };
 
-      pos.x = g.snapToGrid(pos.x, scope.view.grid);
-      pos.y = g.snapToGrid(pos.y, scope.view.grid);
+      pos.x = g.snapToGrid(pos.x, scope.editor.grid);
+      pos.y = g.snapToGrid(pos.y, scope.editor.grid);
 
       linkView.pointermove(e, pos.x, pos.y);
     }
@@ -109,6 +109,11 @@ joint.shapes.statemachine.initial = joint.dia.Element.extend({
       icon: "fa fa-unlink fa-lg",
       title: "Delete Transitions",
       action: joint.shapes.statemachine.menuActions.removeLinks
+    }, {
+      visible: true,
+      icon: "fa fa-link fa-lg",
+      title: "Create Transition",
+      action: joint.shapes.statemachine.menuActions.createTransition
     }]
 
   }, joint.dia.Element.prototype.defaults)
@@ -157,30 +162,42 @@ joint.shapes.statemachine.final = joint.dia.Element.extend({
 
 joint.shapes.statemachine.composite = joint.dia.Element.extend({
 
-  markup: '<g class="rotatable"><g class="scalable"><polygon class="outer"/></g><text/></g>',
+  markup: '<g class="rotatable"><g class="scalable"><rect /></g><image /><text/></g>',
 
   defaults: joint.util.deepSupplement({
-
     type: "statemachine.composite",
     size: {
       width: 100,
       height: 60
     },
     attrs: {
-      ".outer": {
-        fill: "#dddddd",
-        stroke: "#AAAAAA",
-        "stroke-width": 1,
-        points: "100,0 100,60 0,60 0,0"
+      rect: {
+        rx: 3,
+        ry: 3,
+        width: 100,
+        height: 60,
+        stroke: '#ADADAD',
+        'stroke-width': 1,
+        fill: '#F5F5F5'
+      },
+      image: {
+        'xlink:href': 'images/state-composite.png',
+        width: 30,
+        height: 30,
+        ref: 'rect',
+        'ref-x': .5,
+        'ref-y': .5,
+        'y-alignment': 'middle',
+        'x-alignment': 'middle'
       },
       text: {
-        text: "Composite",
-        ref: ".outer",
-        "ref-x": .5,
-        "ref-y": .5,
-        "x-alignment": "middle",
-        "y-alignment": "middle"
-      },
+        text: 'Composite',
+        'font-weight': 'bold',
+        y: 15,
+        ref: 'rect',
+        'ref-x': .5,
+        'x-alignment': 'middle'
+      }
     },
     resizable: true,
     menu: [{
@@ -198,6 +215,11 @@ joint.shapes.statemachine.composite = joint.dia.Element.extend({
       icon: "fa fa-unlink fa-lg",
       title: "Delete Transitions",
       action: joint.shapes.statemachine.menuActions.removeLinks
+    }, {
+      visible: true,
+      icon: "fa fa-link fa-lg",
+      title: "Create Transition",
+      action: joint.shapes.statemachine.menuActions.createTransition
     }]
 
   }, joint.dia.Element.prototype.defaults)
@@ -205,30 +227,42 @@ joint.shapes.statemachine.composite = joint.dia.Element.extend({
 
 joint.shapes.statemachine.parallel = joint.dia.Element.extend({
 
-  markup: '<g class="rotatable"><g class="scalable"><polygon class="outer"/></g><text/></g>',
+  markup: '<g class="rotatable"><g class="scalable"><rect /></g><image /><text/></g>',
 
   defaults: joint.util.deepSupplement({
-
     type: "statemachine.parallel",
     size: {
       width: 100,
       height: 60
     },
     attrs: {
-      ".outer": {
-        fill: "#dddddd",
-        stroke: "#AAAAAA",
-        "stroke-width": 1,
-        points: "100,0 100,60 0,60 0,0"
+      rect: {
+        rx: 3,
+        ry: 3,
+        width: 100,
+        height: 60,
+        stroke: '#ADADAD',
+        'stroke-width': 1,
+        fill: '#F5F5F5'
+      },
+      image: {
+        'xlink:href': 'images/state-parallel.png',
+        width: 30,
+        height: 30,
+        ref: 'rect',
+        'ref-x': .5,
+        'ref-y': .5,
+        'y-alignment': 'middle',
+        'x-alignment': 'middle'
       },
       text: {
-        text: "Parallel",
-        ref: ".outer",
-        "ref-x": .5,
-        "ref-y": .5,
-        "x-alignment": "middle",
-        "y-alignment": "middle"
-      },
+        text: 'Parallel',
+        'font-weight': 'bold',
+        y: 15,
+        ref: 'rect',
+        'ref-x': .5,
+        'x-alignment': 'middle'
+      }
     },
     resizable: true,
     menu: [{
@@ -258,30 +292,34 @@ joint.shapes.statemachine.parallel = joint.dia.Element.extend({
 
 joint.shapes.statemachine.invoke = joint.dia.Element.extend({
 
-  markup: '<g class="rotatable"><g class="scalable"><polygon class="outer"/></g><text/></g>',
+  markup: '<g class="rotatable"><g class="scalable"><rect /></g><image /></g>',
 
   defaults: joint.util.deepSupplement({
-
     type: "statemachine.invoke",
     size: {
       width: 100,
       height: 60
     },
     attrs: {
-      ".outer": {
-        fill: "#dddddd",
-        stroke: "#AAAAAA",
-        "stroke-width": 1,
-        points: "100,0 100,60 0,60 0,0"
+      rect: {
+        rx: 3,
+        ry: 3,
+        width: 100,
+        height: 60,
+        stroke: '#ADADAD',
+        'stroke-width': 1,
+        fill: '#F5F5F5'
       },
-      text: {
-        text: "Invoke",
-        ref: ".outer",
-        "ref-x": .5,
-        "ref-y": .5,
-        "x-alignment": "middle",
-        "y-alignment": "middle"
-      },
+      image: {
+        'xlink:href': 'images/state-invoke.png',
+        width: 50,
+        height: 50,
+        ref: 'rect',
+        'ref-x': .5,
+        'ref-y': .5,
+        'y-alignment': 'middle',
+        'x-alignment': 'middle'
+      }
     },
     resizable: true,
     menu: [{
@@ -299,6 +337,11 @@ joint.shapes.statemachine.invoke = joint.dia.Element.extend({
       icon: "fa fa-unlink fa-lg",
       title: "Delete Transitions",
       action: joint.shapes.statemachine.menuActions.removeLinks
+    }, {
+      visible: true,
+      icon: "fa fa-link fa-lg",
+      title: "Create Transition",
+      action: joint.shapes.statemachine.menuActions.createTransition
     }]
 
   }, joint.dia.Element.prototype.defaults)
@@ -311,7 +354,7 @@ joint.shapes.statemachine.Transition = joint.dia.Link.extend({
     '</g>'
   ].join(''),
   defaults: joint.util.deepSupplement({
-    type: "statemachine.Transition",
+    type: "statemachine.transition",
     attrs: {
       ".marker-target": {
         d: "M 10 0 L 0 5 L 10 10 z"
@@ -326,10 +369,11 @@ joint.shapes.statemachine.Transition = joint.dia.Link.extend({
 
 joint.dia.Graph.prototype.toJSONTree = function() {
   var cells = this.toJSON().cells;
-  var root = [];
+  var root = {};
+  root.children = [];
   for (var i = 0; i < cells.length; i++) {
     //transition
-    if (cells[i].type == 'statemachine.Transition') {
+    if (cells[i].type == 'statemachine.transition') {
       //find source
       for (var j = 0; j < cells.length; j++) {
         if (cells[i].source.id === cells[j].id) {
@@ -350,9 +394,19 @@ joint.dia.Graph.prototype.toJSONTree = function() {
     }
     //root state
     else {
-      root.push(cells[i]);
+      root.children.push(cells[i]);
     }
   }
 
   return root;
 }
+
+//hack to prevent adding vertices on links through user interaction
+joint.dia.LinkView.prototype.addVertex = function() {};
+joint.dia.LinkView.prototype.pointermoveOriginal = joint.dia.LinkView.prototype.pointermove;
+joint.dia.LinkView.prototype.pointermove = function(evt, x, y) {
+  if (this._action === 'vertex-move') {
+    this._action = '';
+  }
+  this.pointermoveOriginal(evt, x, y);
+};

@@ -15,9 +15,9 @@ app.directive("overlay", function() {
         //events
         scope.graph.on("change:position", changePosition);
         scope.graph.on("change:size", changeSize);
-        scope.$watch("view.scale", changeScale);
-        scope.$watch("view.selectionFocus", changeFocus);
-        scope.$watchCollection("view.selectionElements", changeSelection);
+        scope.$watch("editor.scale", changeScale);
+        scope.$watch("editor.selectionFocus", changeFocus);
+        scope.$watchCollection("editor.selectionElements", changeSelection);
       };
 
       var transform = {
@@ -59,7 +59,7 @@ app.directive("overlay", function() {
           e.stopPropagation();
 
           var direction = $(this).attr("class");
-          var selectionFocus = scope.view.selectionFocus;
+          var selectionFocus = scope.editor.selectionFocus;
 
           transformData = {
             x: e.pageX,
@@ -88,13 +88,13 @@ app.directive("overlay", function() {
         },
         drag: function(e) {
           var diff = {
-            x: g.snapToGrid((1 / scope.view.scale) * (transformData.x - e.pageX), scope.view.grid),
-            y: g.snapToGrid((1 / scope.view.scale) * (transformData.y - e.pageY), scope.view.grid)
+            x: g.snapToGrid((1 / scope.editor.scale) * (transformData.x - e.pageX), scope.editor.grid),
+            y: g.snapToGrid((1 / scope.editor.scale) * (transformData.y - e.pageY), scope.editor.grid)
           };
 
           var transform = transformData.transformApply(diff);
 
-          var selectionFocus = scope.view.selectionFocus;
+          var selectionFocus = scope.editor.selectionFocus;
 
           selectionFocus.position(transform.x, transform.y);
           selectionFocus.resize(transform.width, transform.height);
@@ -103,11 +103,11 @@ app.directive("overlay", function() {
 
       var changeScale = function() {
         changeSize();
-        changePosition(scope.view.selectionFocus);
+        changePosition(scope.editor.selectionFocus);
       };
 
       var changeFocus = function() {
-        if (scope.view.selectionFocus instanceof joint.dia.Element) {
+        if (scope.editor.selectionFocus instanceof joint.dia.Element) {
           menuElement.find("[data-toggle=tooltip]").tooltip();
           menuElement.show();
           transformElement.show();
@@ -117,75 +117,75 @@ app.directive("overlay", function() {
         }
 
         changeSize();
-        changePosition(scope.view.selectionFocus);
+        changePosition(scope.editor.selectionFocus);
       };
 
       var changeSelection = function() {
-        if (scope.view.selectionElements.length > 0) {
+        if (scope.editor.selectionElements.length > 0) {
           selectionElement.show();
         } else {
           selectionElement.hide();
         }
 
         changeSize();
-        changePosition(scope.view.selectionFocus);
+        changePosition(scope.editor.selectionFocus);
       };
 
       var changeSize = function() {
-        if (scope.view.selectionFocus instanceof joint.dia.Element) {
-          selectionBounds = scope.graph.getBBox(scope.view.selectionElements);
+        if (scope.editor.selectionFocus instanceof joint.dia.Element) {
+          selectionBounds = scope.graph.getBBox(scope.editor.selectionElements);
 
-          if (scope.view.selectionFocus instanceof joint.dia.Element) {
+          if (scope.editor.selectionFocus instanceof joint.dia.Element) {
             selectionBounds.startPosition = {
-              x: scope.view.selectionFocus.attributes.position.x,
-              y: scope.view.selectionFocus.attributes.position.y
+              x: scope.editor.selectionFocus.attributes.position.x,
+              y: scope.editor.selectionFocus.attributes.position.y
             };
           }
 
-          changePosition(scope.view.selectionFocus);
+          changePosition(scope.editor.selectionFocus);
         }
       };
 
       var changePosition = function(cell) {
-        if (!scope.view.selectionFocus || !cell) {
+        if (!scope.editor.selectionFocus || !cell) {
           return;
         }
 
-        if (cell.id != scope.view.selectionFocus.id) {
+        if (cell.id != scope.editor.selectionFocus.id) {
           return;
         }
 
-        if (scope.view.selectionFocus instanceof joint.dia.Element) {
+        if (scope.editor.selectionFocus instanceof joint.dia.Element) {
           //update menu
           menuElement.css({
-            fontSize: scope.view.scale + "em",
-            left: scope.view.scale * scope.view.selectionFocus.attributes.position.x,
-            top: scope.view.scale * (scope.view.selectionFocus.attributes.position.y - 24),
-            width: scope.view.scale * scope.view.selectionFocus.attributes.size.width
+            fontSize: scope.editor.scale + "em",
+            left: scope.editor.scale * scope.editor.selectionFocus.attributes.position.x,
+            top: scope.editor.scale * (scope.editor.selectionFocus.attributes.position.y - 24),
+            width: scope.editor.scale * scope.editor.selectionFocus.attributes.size.width
           });
 
           //update transform
           transformElement.css({
-            fontSize: scope.view.scale + "em",
-            left: scope.view.scale * scope.view.selectionFocus.attributes.position.x,
-            top: scope.view.scale * scope.view.selectionFocus.attributes.position.y,
-            width: scope.view.scale * scope.view.selectionFocus.attributes.size.width,
-            height: scope.view.scale * scope.view.selectionFocus.attributes.size.height
+            fontSize: scope.editor.scale + "em",
+            left: scope.editor.scale * scope.editor.selectionFocus.attributes.position.x,
+            top: scope.editor.scale * scope.editor.selectionFocus.attributes.position.y,
+            width: scope.editor.scale * scope.editor.selectionFocus.attributes.size.width,
+            height: scope.editor.scale * scope.editor.selectionFocus.attributes.size.height
           });
         }
 
-        if (scope.view.selectionElements.length > 0) {
+        if (scope.editor.selectionElements.length > 0) {
           var diff = {
-            x: (selectionBounds.startPosition.x - scope.view.selectionFocus.attributes.position.x),
-            y: (selectionBounds.startPosition.y - scope.view.selectionFocus.attributes.position.y)
+            x: (selectionBounds.startPosition.x - scope.editor.selectionFocus.attributes.position.x),
+            y: (selectionBounds.startPosition.y - scope.editor.selectionFocus.attributes.position.y)
           };
 
           //update selection
           selectionElement.css({
-            left: scope.view.scale * (selectionBounds.x - diff.x) - 5,
-            top: scope.view.scale * (selectionBounds.y - diff.y) - 5,
-            width: scope.view.scale * selectionBounds.width + 10,
-            height: scope.view.scale * selectionBounds.height + 10
+            left: scope.editor.scale * (selectionBounds.x - diff.x) - 5,
+            top: scope.editor.scale * (selectionBounds.y - diff.y) - 5,
+            width: scope.editor.scale * selectionBounds.width + 10,
+            height: scope.editor.scale * selectionBounds.height + 10
           });
         }
       };

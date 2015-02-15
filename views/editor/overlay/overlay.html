@@ -1,12 +1,12 @@
 <div>
   <div class="menu">
-    <a data-toggle="tooltip" data-original-title="{{menu.title}}" ng-mousedown="$event.stopPropagation(); menu.action($event, $parent, view.selectionFocus);" ng-repeat="menu in view.selectionFocus.attributes.menu">
+    <a data-toggle="tooltip" data-original-title="{{menu.title}}" ng-mousedown="$event.stopPropagation(); menu.action($event, $parent, editor.selectionFocus);" ng-repeat="menu in editor.selectionFocus.attributes.menu">
       <span class="{{menu.icon}}"></span>
     </a>
   </div>
 
   <!-- transform -->
-  <div class="transform" ng-show="view.selectionFocus.attributes.resizable">
+  <div class="transform" ng-show="editor.selectionFocus.attributes.resizable">
     <div class="tl"><span class="fa fa-square"></span>
     </div>
     <div class="tr"><span class="fa fa-square"></span>

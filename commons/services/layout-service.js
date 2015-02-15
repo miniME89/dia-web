@@ -4,12 +4,42 @@ app.service('LayoutService', function(localStorageService) {
   service.loadDefault = function() {
     return {
       sidebar: {
+        views: [
+          {
+            id: 'elements',
+            name: 'Elements'
+          }, 
+          {
+            id: 'statemachine-control',
+            name: 'Statemachine Control'
+          }, 
+          {
+            id: 'general',
+            name: 'General'
+          }, 
+          {
+            id: 'endpoint',
+            name: 'Endpoint'
+          }, 
+          {
+            id: 'parameters',
+            name: 'Parameters'
+          }, 
+          {
+            id: 'dataflows',
+            name: 'Dataflows'
+          }, 
+          {
+            id: 'transition',
+            name: 'Transition'
+          }
+        ],
         left: {
-          views: ['elements', 'statemachine-control'],
+          views: [true, true, false, false, false, false, false],
           closed: false
         },
         right: {
-          views: ['endpoint', 'input-parameters', 'output-parameters', 'dataflows'],
+          views: [false, false, true, true, true, true, true],
           closed: false
         }
       },

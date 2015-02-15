@@ -1,4 +1,4 @@
-app.controller("EditorController", function($rootScope, $scope) {
+app.controller("EditorController", function($rootScope, $scope, StatemachineExecutorService) {
   var init = function() {
     $scope.debug = true;
 
@@ -6,7 +6,7 @@ app.controller("EditorController", function($rootScope, $scope) {
       scaleOptions: [0.25, 0.5, 1.0, 1.5, 2.0, 3.0]
     };
 
-    $rootScope.view = {
+    $rootScope.editor = {
       selectionElements: [],
       selectionFocus: null,
       size: {
@@ -21,25 +21,31 @@ app.controller("EditorController", function($rootScope, $scope) {
     $rootScope.graph = new joint.dia.Graph;
 
     $scope.graph.on("all", $scope.update);
+
+    StatemachineExecutorService.state(function(state) {
+      console.log(state);
+
+      return true;
+    });
   }
 
   $scope.addSelection = function(element) {
-    for (var i = 0; i < $scope.view.selectionElements.length; i++) {
-      if ($scope.view.selectionElements[i].id == element.id) {
+    for (var i = 0; i < $scope.editor.selectionElements.length; i++) {
+      if ($scope.editor.selectionElements[i].id == element.id) {
         return;
       }
     }
 
-    $scope.view.selectionElements.unshift(element);
+    $scope.editor.selectionElements.unshift(element);
   }
 
   $scope.removeSelection = function(element) {
-    for (var i = 0; i < $scope.view.selectionElements.length; i++) {
-      if ($scope.view.selectionElements[i].id == element.id) {
-        $scope.view.selectionElements.splice(i, 1);
+    for (var i = 0; i < $scope.editor.selectionElements.length; i++) {
+      if ($scope.editor.selectionElements[i].id == element.id) {
+        $scope.editor.selectionElements.splice(i, 1);
 
-        if ($scope.view.selectionFocus.id == element.id) {
-          $scope.setFocus($scope.view.selectionElements[0]);
+        if ($scope.editor.selectionFocus.id == element.id) {
+          $scope.setFocus($scope.editor.selectionElements[0]);
         }
 
         return;
@@ -48,8 +54,8 @@ app.controller("EditorController", function($rootScope, $scope) {
   }
 
   $scope.isSelected = function(element) {
-    for (var i = 0; i < $scope.view.selectionElements.length; i++) {
-      if ($scope.view.selectionElements[i].id == element.id) {
+    for (var i = 0; i < $scope.editor.selectionElements.length; i++) {
+      if ($scope.editor.selectionElements[i].id == element.id) {
         return true;
       }
     }
@@ -58,16 +64,16 @@ app.controller("EditorController", function($rootScope, $scope) {
   }
 
   $scope.clearSelection = function() {
-    $scope.view.selectionElements = [];
-    $scope.view.selectionFocus = null;
+    $scope.editor.selectionElements = [];
+    $scope.editor.selectionFocus = null;
   }
 
   $scope.setFocus = function(cell) {
-    $scope.view.selectionFocus = cell;
+    $scope.editor.selectionFocus = cell;
   }
 
   $scope.clearFocus = function() {
-    $scope.view.selectionFocus = null;
+    $scope.editor.selectionFocus = null;
   }
 
   $scope.update = function(eventName) {

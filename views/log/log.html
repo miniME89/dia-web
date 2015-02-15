@@ -1,6 +1,6 @@
-<div ng-controller="LogController">
+<div class="view" ng-controller="LogController">
   <div class="view-body">
-      <table class="log table table-striped table-condensed">
+    <table class="log table table-condensed">
       <thead>
         <tr>
           <th width="4%">#</th>
@@ -21,8 +21,7 @@
                       </div>
                       <div class="col-md-9">
                         <label ng-repeat="(key, value) in levels">
-                          <input type="checkbox" ng-model="filter.levels[key]">
-                          {{value}}
+                          <input type="checkbox" ng-model="filter.levels[key]"> {{value}}
                         </label>
                       </div>
                     </div>
@@ -45,7 +44,7 @@
                     <div class="row">
                       <div class="col-md-3"></div>
                       <div class="col-md-9">
-                        <button type="button"class="btn btn-default" ng-click="filterLogReset()">Reset</button>
+                        <button type="button" class="btn btn-default" ng-click="filterLogReset()">Reset</button>
                       </div>
                     </div>
                   </li>

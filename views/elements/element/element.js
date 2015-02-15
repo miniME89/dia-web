@@ -66,12 +66,12 @@ app.directive("element", function() {
         if (intersect(helper, svg)) {
           var posEditor = editor.offset();
           var pos = {
-            x: ((ui.offset.left - posEditor.left) / editor.width()) * scope.view.size.width,
-            y: ((ui.offset.top - posEditor.top) / editor.height()) * scope.view.size.height
+            x: ((ui.offset.left - posEditor.left) / editor.width()) * scope.editor.size.width,
+            y: ((ui.offset.top - posEditor.top) / editor.height()) * scope.editor.size.height
           };
 
-          pos.x = g.snapToGrid(pos.x, scope.view.grid);
-          pos.y = g.snapToGrid(pos.y, scope.view.grid);
+          pos.x = g.snapToGrid(pos.x, scope.editor.grid);
+          pos.y = g.snapToGrid(pos.y, scope.editor.grid);
 
           var cell = this.clone();
           cell.set({

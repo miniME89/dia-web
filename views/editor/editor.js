@@ -12,9 +12,9 @@ app.directive("editor", function() {
           gridSize: 10
         });
 
-        scope.$watchGroup(["view.size", "view.scale"], updateSize);
-        scope.$watch("view.scale", updateScale);
-        scope.$watchGroup(["view.grid", "view.gridVisible", "view.scale"], updateGrid);
+        scope.$watchGroup(["editor.size", "editor.scale"], updateSize);
+        scope.$watch("editor.scale", updateScale);
+        scope.$watchGroup(["editor.grid", "editor.gridVisible", "editor.scale"], updateGrid);
 
         scope.paper.on("all", scope.update);
 
@@ -52,8 +52,8 @@ app.directive("editor", function() {
               startPositions: []
             };
 
-            for (var i = 0; i < scope.view.selectionElements.length; i++) {
-              dragElementData.startPositions.push(scope.view.selectionElements[i].attributes.position);
+            for (var i = 0; i < scope.editor.selectionElements.length; i++) {
+              dragElementData.startPositions.push(scope.editor.selectionElements[i].attributes.position);
             }
 
             draggedElement = false;
@@ -81,14 +81,14 @@ app.directive("editor", function() {
           if (cell instanceof joint.dia.Element) {
             draggedElement = true;
 
-            if (scope.view.selectionElements.length > 1) {
-              for (var i = 0; i < scope.view.selectionElements.length; i++) {
-                if (scope.view.selectionElements[i].id != cell.id) {
+            if (scope.editor.selectionElements.length > 1) {
+              for (var i = 0; i < scope.editor.selectionElements.length; i++) {
+                if (scope.editor.selectionElements[i].id != cell.id) {
                   var pos = {
                     x: dragElementData.startPositions[i].x - (dragElementData.startPosition.x - cell.attributes.position.x),
                     y: dragElementData.startPositions[i].y - (dragElementData.startPosition.y - cell.attributes.position.y)
                   };
-                  scope.view.selectionElements[i].position(pos.x, pos.y);
+                  scope.editor.selectionElements[i].position(pos.x, pos.y);
                 }
               }
             }
@@ -214,8 +214,8 @@ app.directive("editor", function() {
       };
 
       var createGridBackground = function() {
-        var gridSize = scope.view.scale * scope.view.grid;
-        var gridVisible = scope.view.gridVisible;
+        var gridSize = scope.editor.scale * scope.editor.grid;
+        var gridVisible = scope.editor.gridVisible;
 
         if (!gridVisible || gridSize < 10) {
           return "";
@@ -240,17 +240,17 @@ app.directive("editor", function() {
 
       var updateSize = function() {
         $("#editor").css({
-          width: scope.view.size.width * scope.view.scale,
-          height: scope.view.size.height * scope.view.scale
+          width: scope.editor.size.width * scope.editor.scale,
+          height: scope.editor.size.height * scope.editor.scale
         });
       };
 
       var updateScale = function() {
-        scope.paper.scale(scope.view.scale, scope.view.scale);
+        scope.paper.scale(scope.editor.scale, scope.editor.scale);
       };
 
       var updateGrid = function() {
-        scope.paper.options.gridSize = scope.view.grid;
+        scope.paper.options.gridSize = scope.editor.grid;
 
         $("#editor").css("backgroundImage", createGridBackground());
       };
