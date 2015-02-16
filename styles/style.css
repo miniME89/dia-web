@@ -111,20 +111,11 @@ h1, h2, h3, h4, h5, h6 {
 /*****************************
        dataflow editor
 ******************************/
-.dataflow-editor {
-  padding: 5px;
-}
-
-.dataflow-editor .dataflow {
+.dataflow {
   border: 1px solid #ddd;
   border-left: 3px solid #428BCA;
   padding: 5px;
   margin-bottom: 5px;
-}
-
-.dataflow-editor input, .dataflow-editor button {
-  height: auto;
-  padding: 2px 5px;
 }
 
 /*****************************
@@ -277,7 +268,6 @@ h1, h2, h3, h4, h5, h6 {
 .view {
   background-color: #FFFFFF;
   border-bottom: 1px solid #ddd;
-  min-height: 100px;
   margin-bottom: 10px;
 }
 
@@ -308,6 +298,12 @@ h1, h2, h3, h4, h5, h6 {
 .views-list > .dropdown-menu {
   width: 200px;
   padding: 5px;
+}
+
+.view input,
+.view button {
+  height: auto;
+  padding: 2px 5px;
 }
 
 /*****************************

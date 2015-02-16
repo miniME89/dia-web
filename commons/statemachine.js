@@ -39,7 +39,8 @@ joint.shapes.statemachine.menuActions = {
         x: 0,
         y: 0
       },
-      attrs: {}
+      event: '',
+      condition: ''
     });
 
     graph.addCell(link);
@@ -291,9 +292,7 @@ joint.shapes.statemachine.parallel = joint.dia.Element.extend({
 });
 
 joint.shapes.statemachine.invoke = joint.dia.Element.extend({
-
   markup: '<g class="rotatable"><g class="scalable"><rect /></g><image /></g>',
-
   defaults: joint.util.deepSupplement({
     type: "statemachine.invoke",
     size: {

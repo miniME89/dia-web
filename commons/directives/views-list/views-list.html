@@ -1,0 +1,10 @@
+<div class="views-list dropdown">
+  <button type="button" class="btn btn-xs btn-default" data-toggle="dropdown" aria-expanded="true">
+    <span class="fa fa-th-large"></span>
+  </button>
+  <ul class="dropdown-menu" role="menu" ng-click="$event.stopPropagation()">
+    <li ng-repeat="v in layout.sidebar.views">
+      <label><input type="checkbox" ng-click="toggleVisible(v.id)" ng-checked="isVisible(v.id)"> {{v.name}}</label>
+    </li>
+  </ul>
+</div>

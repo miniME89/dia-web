@@ -47,10 +47,10 @@ var SMDLTransformation = {
       },
       input: function(element) {
         var inputNode = document.createElement('input');
-        var inputParameters = element.inputParameters;
-        if (inputParameters) {
-          for (var key in inputParameters) {
-            inputNode.appendChild(encode['values'](inputParameters[key], key));
+        var input = element.parameters.input;
+        if (input) {
+          for (var key in input) {
+            inputNode.appendChild(encode['values'](input[key], key));
           }
         }
 
@@ -58,10 +58,10 @@ var SMDLTransformation = {
       },
       output: function(element) {
         var outputNode = document.createElement('output');
-        var outputParameters = element.outputParameters;
-        if (outputParameters) {
-          for (var key in outputParameters) {
-            outputNode.appendChild(encode['values'](outputParameters[key], key));
+        var output = element.parameters.output;
+        if (output) {
+          for (var key in output) {
+            outputNode.appendChild(encode['values'](output[key], key));
           }
         }
 

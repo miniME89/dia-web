@@ -5,19 +5,39 @@ app.controller("ElementsController", function($rootScope, $scope, ApplicationDis
     //general elements
     $scope.addElement('General', new joint.shapes.statemachine.initial({
       name: 'Initial',
-      description: 'description...'
+      description: 'description...',
+      parameters: {
+        input: {},
+        output: {}
+      },
+      dataflows: []
     }));
     $scope.addElement('General', new joint.shapes.statemachine.final({
       name: 'Final',
-      description: 'description...'
+      description: 'description...',
+      parameters: {
+        input: {},
+        output: {}
+      },
+      dataflows: []
     }));
     $scope.addElement('General', new joint.shapes.statemachine.composite({
       name: 'Composite',
-      description: 'description...'
+      description: 'description...',
+      parameters: {
+        input: {},
+        output: {}
+      },
+      dataflows: []
     }));
     $scope.addElement('General', new joint.shapes.statemachine.parallel({
       name: 'Parallel',
-      description: 'description...'
+      description: 'description...',
+      parameters: {
+        input: {},
+        output: {}
+      },
+      dataflows: []
     }));
 
     $scope.update();
@@ -30,8 +50,7 @@ app.controller("ElementsController", function($rootScope, $scope, ApplicationDis
           name: applications[i].name,
           description: applications[i].description,
           endpoint: applications[i].endpoint,
-          inputParameters: applications[i].inputParameters,
-          outputParameters: applications[i].outputParameters,
+          parameters: applications[i].parameters,
           dataflows: []
         });
         $scope.addElement(applications[i].category, state);

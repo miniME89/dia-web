@@ -1,6 +1,16 @@
-<div class="view" ng-if="editor.selectionFocus.attributes.dataflows">
+<div class="view" ng-if="editor.selectionFocus.attributes.dataflows" ng-controller="DataflowsController">
   <div class="view-header">Dataflow</div>
-  <div class="view-body">
-    <div dataflows="editor.selectionFocus.attributes.dataflows" dataflow-editor></div>
+  <div class="view-body padding">
+    <div class="dataflow" ng-repeat="dataflow in editor.selectionFocus.attributes.dataflows">
+      <label>Source</label>
+      <input type="text" class="form-control" ng-model="dataflow.source">
+      <label>From</label>
+      <input type="text" class="form-control" ng-model="dataflow.from">
+      <label>To</label>
+      <input type="text" class="form-control" ng-model="dataflow.to">
+    </div>
+    <button type="button" class="btn btn-default" ng-click="add()">
+      <span class="fa fa-plus"></span> Add
+    </button>
   </div>
 </div>

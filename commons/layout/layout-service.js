@@ -8,38 +8,34 @@ app.service('LayoutService', function(localStorageService) {
           {
             id: 'elements',
             name: 'Elements'
-          }, 
+          },
           {
             id: 'statemachine-control',
             name: 'Statemachine Control'
-          }, 
-          {
-            id: 'general',
-            name: 'General'
-          }, 
+          },
           {
             id: 'endpoint',
             name: 'Endpoint'
-          }, 
+          },
           {
             id: 'parameters',
             name: 'Parameters'
-          }, 
+          },
           {
             id: 'dataflows',
             name: 'Dataflows'
-          }, 
+          },
           {
             id: 'transition',
             name: 'Transition'
           }
         ],
         left: {
-          views: [true, true, false, false, false, false, false],
+          views: ['elements', 'statemachine-control'],
           closed: false
         },
         right: {
-          views: [false, false, true, true, true, true, true],
+          views: ['endpoint', 'parameters', 'dataflows', 'transition'],
           closed: false
         }
       },
