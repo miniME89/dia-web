@@ -4,7 +4,7 @@ app.directive("editor", function() {
     link: function(scope, element, attributes) {
       var init = function() {
         //create paper
-        scope.paper = new joint.dia.Paper({
+        scope.editor.paper = new joint.dia.Paper({
           el: element,
           width: "100%",
           height: "100%",
@@ -16,23 +16,23 @@ app.directive("editor", function() {
         scope.$watch("editor.scale", updateScale);
         scope.$watchGroup(["editor.grid", "editor.gridVisible", "editor.scale"], updateGrid);
 
-        scope.paper.on("all", scope.update);
+        scope.editor.paper.on("all", scope.update);
 
         //element actions
-        scope.paper.on("cell:pointerdown", dragElement.start);
-        scope.paper.on("cell:pointerup", dragElement.end);
-        scope.paper.on("cell:pointermove", dragElement.drag);
-        scope.paper.on("cell:pointerdown", embedElement.unembed);
-        scope.paper.on("cell:pointerup", embedElement.embed);
+        scope.editor.paper.on("cell:pointerdown", dragElement.start);
+        scope.editor.paper.on("cell:pointerup", dragElement.end);
+        scope.editor.paper.on("cell:pointermove", dragElement.drag);
+        scope.editor.paper.on("cell:pointerdown", embedElement.unembed);
+        scope.editor.paper.on("cell:pointerup", embedElement.embed);
 
         //link actions
-        scope.paper.on("cell:pointerdown", dragLink.start);
-        scope.paper.on("cell:pointerup", dragLink.end);
-        scope.paper.on("cell:pointermove", dragLink.drag);
+        scope.editor.paper.on("cell:pointerdown", dragLink.start);
+        scope.editor.paper.on("cell:pointerup", dragLink.end);
+        scope.editor.paper.on("cell:pointermove", dragLink.drag);
 
         //paper actions
-        scope.paper.on("blank:pointerdown", dragPaper.start);
-        scope.paper.on("blank:pointerup", dragPaper.end);
+        scope.editor.paper.on("blank:pointerdown", dragPaper.start);
+        scope.editor.paper.on("blank:pointerup", dragPaper.end);
       };
 
       /*
@@ -120,7 +120,7 @@ app.directive("editor", function() {
 
           if (cell instanceof joint.dia.Element) {
             //embed cell into cell below
-            var cellViewsBelow = scope.paper.findViewsFromPoint(cell.getBBox().center());
+            var cellViewsBelow = scope.editor.paper.findViewsFromPoint(cell.getBBox().center());
             if (cellViewsBelow.length > 0) {
 
               //find first element under this element
@@ -246,11 +246,11 @@ app.directive("editor", function() {
       };
 
       var updateScale = function() {
-        scope.paper.scale(scope.editor.scale, scope.editor.scale);
+        scope.editor.paper.scale(scope.editor.scale, scope.editor.scale);
       };
 
       var updateGrid = function() {
-        scope.paper.options.gridSize = scope.editor.grid;
+        scope.editor.paper.options.gridSize = scope.editor.grid;
 
         $("#editor").css("backgroundImage", createGridBackground());
       };

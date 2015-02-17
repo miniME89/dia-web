@@ -1,13 +1,38 @@
 <div class="view" ng-if="editor.selectionFocus.attributes.dataflows" ng-controller="DataflowsController">
-  <div class="view-header">Dataflow</div>
-  <div class="view-body padding">
-    <div class="dataflow" ng-repeat="dataflow in editor.selectionFocus.attributes.dataflows">
-      <label>Source</label>
-      <input type="text" class="form-control" ng-model="dataflow.source">
-      <label>From</label>
-      <input type="text" class="form-control" ng-model="dataflow.from">
-      <label>To</label>
-      <input type="text" class="form-control" ng-model="dataflow.to">
+  <div class="header">Dataflow</div>
+  <div class="body padding">
+    <div ng-model="editor.selectionFocus.attributes.dataflows" ui-sortable="dataflowSortableOptions">
+      <div class="dataflow" ng-repeat="dataflow in editor.selectionFocus.attributes.dataflows">
+        <div class="input-group">
+          <input type="text" placeholder="Source State" class="form-control" ng-model="dataflow.source">
+          <span class="input-group-btn">
+            <button class="btn btn-default" type="button" ng-click="selectSource(dataflow)" state-selection="dataflow.source">
+              <span class="fa fa-crosshairs"></span>
+            </button>
+          </span>
+        </div>
+        <div class="input-group">
+          <input type="text" placeholder="From Parameter" class="form-control" ng-model="dataflow.from" parameterAutocomplete="dataflow.from">
+          <span class="input-group-btn">
+          <button class="btn btn-default" type="button">
+            <span class="fa fa-bars"></span>
+          </button>
+          </span>
+        </div>
+        <div class="input-group">
+          <input type="text" placeholder="To Parameter" class="form-control" ng-model="dataflow.to">
+          <span class="input-group-btn">
+          <button class="btn btn-default" type="button">
+            <span class="fa fa-bars"></span>
+          </button>
+          </span>
+        </div>
+        <div class="btn-remove">
+          <button type="button" class="btn btn-default" ng-click="remove($index)">
+            <span class="fa fa-remove">Remove</span>
+          </button>
+        </div>
+      </div>
     </div>
     <button type="button" class="btn btn-default" ng-click="add()">
       <span class="fa fa-plus"></span> Add

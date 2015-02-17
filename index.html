@@ -18,13 +18,13 @@
     <div class="layout" ng-controller="LayoutController">
       <!-- sidebar: left -->
       <div class="sidebar left" ng-class="{'closed': layout.sidebar.left.closed}">
-        <div class="sidebar-header">
+        <div class="header">
           <div views-list="layout.sidebar.left.views"></div>
           <button type="button" class="btn btn-xs btn-default" ng-click="layout.sidebar.left.closed=!layout.sidebar.left.closed">
             <span class="fa" ng-class="{'fa-angle-left': !layout.sidebar.left.closed, 'fa-angle-right': layout.sidebar.left.closed}"></span>
           </button>
         </div>
-        <div class="sidebar-body sortable" ng-model="layout.sidebar.left.views" ui-sortable="sidebarSortableOptions">
+        <div class="body sortable" ng-model="layout.sidebar.left.views" ui-sortable="sidebarSortableOptions">
           <div ng-repeat="v in layout.sidebar.left.views" ng-include="'views/' + v + '/' + v + '.html'"></div>
         </div>
       </div>
@@ -36,25 +36,25 @@
 
       <!-- bottombar -->
       <div class="bottombar" ng-class="{'closed': layout.bottombar.closed, 'closed-left': layout.sidebar.left.closed, 'closed-right': layout.sidebar.right.closed}">
-        <div class="bottombar-header">
+        <div class="header">
           <button type="button" class="btn btn-xs btn-default" ng-click="layout.bottombar.closed=!layout.bottombar.closed">
             <span class="fa" ng-class="{'fa-angle-down': !layout.bottombar.closed, 'fa-angle-up': layout.bottombar.closed}"></span>
           </button>
         </div>
-        <div class="bottombar-body">
+        <div class="body">
           <div ng-include="'views/log/log.html'"></div>
         </div>
       </div>
 
       <!-- sidebar: right -->
       <div class="sidebar right" ng-class="{'closed': layout.sidebar.right.closed}">
-        <div class="sidebar-header">
+        <div class="header">
           <button type="button" class="btn btn-xs btn-default" ng-click="layout.sidebar.right.closed=!layout.sidebar.right.closed">
             <span class="fa" ng-class="{'fa-angle-right': !layout.sidebar.right.closed, 'fa-angle-left': layout.sidebar.right.closed}"></span>
           </button>
           <div views-list="layout.sidebar.right.views"></div>
         </div>
-        <div class="sidebar-body sortable" ng-model="layout.sidebar.right.views" ui-sortable="sidebarSortableOptions">
+        <div class="body sortable" ng-model="layout.sidebar.right.views" ui-sortable="sidebarSortableOptions">
           <div ng-repeat="v in layout.sidebar.right.views" ng-include="'views/' + v + '/' + v + '.html'"></div>
         </div>
       </div>
@@ -83,6 +83,8 @@
     <script src="commons/directives/views-list/views-list.js" type="text/javascript"></script>
     <script src="commons/transformation/smdl-transformation.js" type="text/javascript"></script>
     <script src="views/dataflows/dataflows-controller.js" type="text/javascript"></script>
+    <script src="views/dataflows/parameter-autocomplete/parameter-autocomplete.js" type="text/javascript"></script>
+    <script src="views/dataflows/state-selection/state-selection.js" type="text/javascript"></script>
     <script src="views/editor/editor.js" type="text/javascript"></script>
     <script src="views/editor/editor-controller.js" type="text/javascript"></script>
     <script src="views/editor/overlay/overlay.js" type="text/javascript"></script>

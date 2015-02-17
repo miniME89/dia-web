@@ -4,7 +4,7 @@ app.controller("LayoutController", function($scope, LayoutService) {
       containment: 'body',
       appendTo: 'body',
       connectWith: '.sortable',
-      handle: '.view-header',
+      handle: '.header',
       helper: 'clone',
       zIndex: 100000
     };

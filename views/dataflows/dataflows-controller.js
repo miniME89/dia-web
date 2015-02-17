@@ -1,4 +1,10 @@
-app.controller("DataflowsController", function($scope) {
+app.controller('DataflowsController', function($scope) {
+  var init = function() {
+    $scope.dataflowSortableOptions = {
+      zIndex: 100000
+    };
+  }
+
   $scope.add = function() {
     $scope.editor.selectionFocus.attributes.dataflows.push({
       source: '',
@@ -11,9 +17,5 @@ app.controller("DataflowsController", function($scope) {
     $scope.editor.selectionFocus.attributes.dataflows.splice(index, 1);
   };
 
-  $scope.autocomplete = function() {
-    console.log('autocomplete');
-    var parameters = $scope.editor.selectionFocus.attributes.parameters;
-    
-  };
+  init();
 });

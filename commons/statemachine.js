@@ -27,7 +27,7 @@ joint.shapes.statemachine.menuActions = {
     });
   },
   createTransition: function(e, scope, element) {
-    var paper = scope.paper;
+    var paper = scope.editor.paper;
     var paperElement = $(paper.el);
     var graph = scope.graph;
 
@@ -82,22 +82,16 @@ joint.shapes.statemachine.menuActions = {
 };
 
 joint.shapes.statemachine.initial = joint.dia.Element.extend({
-
-  markup: '<g class="rotatable"><g class="scalable"><circle/></g></g>',
-
+  markup: '<g class="rotatable">' +
+            '<g class="scalable">' +
+              '<circle cx="10" cy="10" r="10" />' +
+            '</g>' +
+          '</g>',
   defaults: joint.util.deepSupplement({
-
     type: "statemachine.initial",
     size: {
       width: 20,
       height: 20
-    },
-    attrs: {
-      circle: {
-        transform: "translate(10, 10)",
-        r: 10,
-        fill: "black"
-      }
     },
     resizable: false,
     menu: [{
@@ -116,34 +110,21 @@ joint.shapes.statemachine.initial = joint.dia.Element.extend({
       title: "Create Transition",
       action: joint.shapes.statemachine.menuActions.createTransition
     }]
-
   }, joint.dia.Element.prototype.defaults)
 });
 
 joint.shapes.statemachine.final = joint.dia.Element.extend({
-
-  markup: '<g class="rotatable"><g class="scalable"><circle class="outer"/><circle class="inner"/></g></g>',
-
+  markup: '<g class="rotatable">' +
+            '<g class="scalable">' +
+              '<circle cx="10" cy="10" r="10" fill="#fff" stroke="#000" stroke-width="2" />' +
+              '<circle cx="10" cy="10" r="7" />' +
+            '</g>' +
+          '</g>',
   defaults: joint.util.deepSupplement({
-
     type: "statemachine.final",
     size: {
       width: 20,
       height: 20
-    },
-    attrs: {
-      ".outer": {
-        transform: "translate(10, 10)",
-        r: 10,
-        fill: "#FFFFFF",
-        stroke: "black"
-      },
-
-      ".inner": {
-        transform: "translate(10, 10)",
-        r: 6,
-        fill: "#000000"
-      }
     },
     resizable: false,
     menu: [{
@@ -157,14 +138,17 @@ joint.shapes.statemachine.final = joint.dia.Element.extend({
       title: "Delete Transitions",
       action: joint.shapes.statemachine.menuActions.removeLinks
     }]
-
   }, joint.dia.Element.prototype.defaults)
 });
 
 joint.shapes.statemachine.composite = joint.dia.Element.extend({
-
-  markup: '<g class="rotatable"><g class="scalable"><rect /></g><image /><text/></g>',
-
+  markup: '<g class="rotatable">' +
+            '<g class="scalable">' +
+              '<rect width="1" height="1" />' +
+            '</g>' +
+            '<image width="30" height="30" xlink:href="images/state-composite.png" />' +
+            '<text font-weight="bold" y="15">Composite</text>' +
+          '</g>',
   defaults: joint.util.deepSupplement({
     type: "statemachine.composite",
     size: {
@@ -172,19 +156,7 @@ joint.shapes.statemachine.composite = joint.dia.Element.extend({
       height: 60
     },
     attrs: {
-      rect: {
-        rx: 3,
-        ry: 3,
-        width: 100,
-        height: 60,
-        stroke: '#ADADAD',
-        'stroke-width': 1,
-        fill: '#F5F5F5'
-      },
       image: {
-        'xlink:href': 'images/state-composite.png',
-        width: 30,
-        height: 30,
         ref: 'rect',
         'ref-x': .5,
         'ref-y': .5,
@@ -192,9 +164,6 @@ joint.shapes.statemachine.composite = joint.dia.Element.extend({
         'x-alignment': 'middle'
       },
       text: {
-        text: 'Composite',
-        'font-weight': 'bold',
-        y: 15,
         ref: 'rect',
         'ref-x': .5,
         'x-alignment': 'middle'
@@ -222,14 +191,17 @@ joint.shapes.statemachine.composite = joint.dia.Element.extend({
       title: "Create Transition",
       action: joint.shapes.statemachine.menuActions.createTransition
     }]
-
   }, joint.dia.Element.prototype.defaults)
 });
 
 joint.shapes.statemachine.parallel = joint.dia.Element.extend({
-
-  markup: '<g class="rotatable"><g class="scalable"><rect /></g><image /><text/></g>',
-
+  markup: '<g class="rotatable">' +
+            '<g class="scalable">' +
+              '<rect width="1" height="1" />' +
+            '</g>' +
+            '<image width="30" height="30" xlink:href="images/state-parallel.png" />' +
+            '<text font-weight="bold" y="15">Parallel</text>' +
+          '</g>',
   defaults: joint.util.deepSupplement({
     type: "statemachine.parallel",
     size: {
@@ -237,19 +209,7 @@ joint.shapes.statemachine.parallel = joint.dia.Element.extend({
       height: 60
     },
     attrs: {
-      rect: {
-        rx: 3,
-        ry: 3,
-        width: 100,
-        height: 60,
-        stroke: '#ADADAD',
-        'stroke-width': 1,
-        fill: '#F5F5F5'
-      },
       image: {
-        'xlink:href': 'images/state-parallel.png',
-        width: 30,
-        height: 30,
         ref: 'rect',
         'ref-x': .5,
         'ref-y': .5,
@@ -257,9 +217,6 @@ joint.shapes.statemachine.parallel = joint.dia.Element.extend({
         'x-alignment': 'middle'
       },
       text: {
-        text: 'Parallel',
-        'font-weight': 'bold',
-        y: 15,
         ref: 'rect',
         'ref-x': .5,
         'x-alignment': 'middle'
@@ -287,12 +244,16 @@ joint.shapes.statemachine.parallel = joint.dia.Element.extend({
       title: "Create Transition",
       action: joint.shapes.statemachine.menuActions.createTransition
     }]
-
   }, joint.dia.Element.prototype.defaults)
 });
 
 joint.shapes.statemachine.invoke = joint.dia.Element.extend({
-  markup: '<g class="rotatable"><g class="scalable"><rect /></g><image /></g>',
+  markup: '<g class="rotatable">' +
+            '<g class="scalable">' +
+              '<rect width="1" height="1" />' +
+            '</g>' +
+            '<image width="30" height="30" xlink:href="images/state-invoke.png" />' +
+          '</g>',
   defaults: joint.util.deepSupplement({
     type: "statemachine.invoke",
     size: {
@@ -300,23 +261,16 @@ joint.shapes.statemachine.invoke = joint.dia.Element.extend({
       height: 60
     },
     attrs: {
-      rect: {
-        rx: 3,
-        ry: 3,
-        width: 100,
-        height: 60,
-        stroke: '#ADADAD',
-        'stroke-width': 1,
-        fill: '#F5F5F5'
-      },
       image: {
-        'xlink:href': 'images/state-invoke.png',
-        width: 50,
-        height: 50,
         ref: 'rect',
         'ref-x': .5,
         'ref-y': .5,
         'y-alignment': 'middle',
+        'x-alignment': 'middle'
+      },
+      text: {
+        ref: 'rect',
+        'ref-x': .5,
         'x-alignment': 'middle'
       }
     },
@@ -342,16 +296,13 @@ joint.shapes.statemachine.invoke = joint.dia.Element.extend({
       title: "Create Transition",
       action: joint.shapes.statemachine.menuActions.createTransition
     }]
-
   }, joint.dia.Element.prototype.defaults)
 });
 
 joint.shapes.statemachine.Transition = joint.dia.Link.extend({
-  arrowheadMarkup: [
-    '<g class="marker-arrowhead-group marker-arrowhead-group-<%= end %>">',
-    '<circle class="marker-arrowhead" end="<%= end %>" r="7"/>',
-    '</g>'
-  ].join(''),
+  arrowheadMarkup:'<g class="marker-arrowhead-group marker-arrowhead-group-<%= end %>">' +
+                    '<circle class="marker-arrowhead" end="<%= end %>" r="7"/>' +
+                  '</g>',
   defaults: joint.util.deepSupplement({
     type: "statemachine.transition",
     attrs: {

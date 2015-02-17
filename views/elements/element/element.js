@@ -58,7 +58,7 @@ app.directive("element", function() {
         var scope = angular.element($("#editor")).scope();
         var editor = $("#editor");
         var graph = scope.graph;
-        var paper = scope.paper;
+        var paper = scope.editor.paper;
         var svg = $(paper.svg);
         var helper = $(ui.helper);
 
@@ -87,7 +87,7 @@ app.directive("element", function() {
           scope.setFocus(cell);
 
           //embed cell into cell below
-          var cellViewsBelow = scope.paper.findViewsFromPoint(cell.getBBox().center());
+          var cellViewsBelow = scope.editor.paper.findViewsFromPoint(cell.getBBox().center());
           if (cellViewsBelow.length > 0) {
             //find first element under this element
             var cellViewBelow = null;
