@@ -1,61 +1,10 @@
-<div class="parameter-editor">
-  <!-- header -->
-  <div class="header" ng-show="key !== undefined">
-    <div class="pull-left">
-      <span>
-        <span class="fa fa-fw expand" ng-click="closed=!closed" ng-class="{'fa-caret-down': !closed, 'fa-caret-right': closed}"></span>
-      </span>
-      <span class="key" ng-if="!editKey && getType(parent) !== 'Array' && key !== undefined">
-        <a href="" ng-click="$parent.editKey=true">{{key || '&nbsp;'}}</a>
-      </span>
-      <span class="key" ng-if="editKey">
-        <input type="text" class="key form-control" placeholder="key" ng-model="newKey" ng-blur="setKey(newKey); $parent.editKey=false;">
-      </span>
-      <span class="key" ng-if="getType(parent) === 'Array' && key !== undefined">
-        <a href="">[{{key}}]</a>
-      </span>
-    </div>
-    <div class="pull-right">
-      <button type="button" class="btn btn-default" ng-if="parent" ng-click="remove()">
-        <span class="fa fa-remove"></span>
-      </button>
-      <div class="dropdown">
-        <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-expanded="true">
-          <span class="pull-left">
-            {{getType()}}
-          </span>
-          <span class="pull-right">
-            <span class="caret"></span>
-          </span>
-        </button>
-        <ul class="dropdown-menu dropdown-menu-right" role="menu">
-          <li><a href="" role="menuitem" ng-click="setType('Boolean')">Boolean</a></li>
-          <li><a href="" role="menuitem" ng-click="setType('Number')">Number</a></li>
-          <li><a href="" role="menuitem" ng-click="setType('String')">String</a></li>
-          <li><a href="" role="menuitem" ng-click="setType('Array')">Array</a></li>
-          <li><a href="" role="menuitem" ng-click="setType('Object')">Object</a></li>
-        </ul>
-      </div>
-    </div>
-  </div>
-  <div class="input" ng-hide="closed && key !== undefined">
-    <label ng-if="key !== undefined">Value</label>
-    <div class="dropdown" ng-if="getType() == 'Boolean'">
-      <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-expanded="true">
-        {{(value) ? 'True' : 'False'}}
-        <span class="caret"></span>
-      </button>
-      <ul class="dropdown-menu" role="menu">
-        <li><a href="" role="menuitem" ng-click="setValue('true')">True</a></li>
-        <li><a href="" role="menuitem" ng-click="setValue('false')">False</a></li>
-      </ul>
-    </div>
-    <input type="text" class="form-control" placeholder="value" ng-if="getType() == 'Number' || getType() == 'String'" ng-model="newValue" ng-blur="setValue(newValue)">
-    <div ng-if="getType() == 'Array' || getType() == 'Object'">
-      <div ng-repeat="(k, v) in value track by $index" parent="value" value="value[k]" key="k" parameter-editor></div>
-      <button type="button" class="btn btn-default" ng-if="getType() === 'Array' || getType() === 'Object'" ng-click="add()">
-        <span class="fa fa-plus"></span> Add
-      </button>
-    </div>
+<div>
+  <div class="parameter-editor" ng-mousedown="$event.stopPropagation()" data-drag-delay="200" ui-tree>
+    <ol ng-model="parameter.value" ui-tree-nodes>
+      <li ng-repeat="parameter in parameter.value" ng-include="'commons/directives/parameter-editor/parameter-node.html'" data-collapsed="true" ui-tree-node></li>
+    </ol>
+    <button type="button" class="btn btn-default" ng-click="add(this)">
+      <span class="fa fa-plus"></span> Add
+    </button>
   </div>
 </div>

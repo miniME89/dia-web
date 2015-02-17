@@ -1,7 +1,8 @@
 var app = angular.module('app', ['ngRoute',
                                  'ui.bootstrap',
                                  'ui.sortable',
-                                 'LocalStorageModule']);
+                                 'LocalStorageModule',
+                                 'ui.tree']);
 
 app.config(["$routeProvider", function($routeProvider) {
   $routeProvider.

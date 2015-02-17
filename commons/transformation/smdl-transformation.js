@@ -103,22 +103,21 @@ var SMDLTransformation = {
         }
 
         var typeAttribute = document.createAttribute('type');
-        var type = typeof obj;
-        typeAttribute.value = (angular.isArray(obj) && 'Array') || (angular.isObject(obj) && 'Object') || type[0].toUpperCase() + type.slice(1);
+        typeAttribute.value = obj.type;
         valueNode.setAttributeNode(typeAttribute);
 
         if (typeAttribute.value === 'Array') {
-          for (var i = 0; i < obj.length; i++) {
-            valueNode.appendChild(encode['values'](obj[i]));
+          for (var i = 0; i < obj.value.length; i++) {
+            valueNode.appendChild(encode['values'](obj.value[i]));
           }
         }
         else if (typeAttribute.value === 'Object') {
-          for (var key in obj) {
-            valueNode.appendChild(encode['values'](obj[key], key));
+          for (var key in obj.value) {
+            valueNode.appendChild(encode['values'](obj.value[key], obj.value[key].name));
           }
         }
         else {
-          var textNode = document.createTextNode(obj);
+          var textNode = document.createTextNode(obj.value);
           valueNode.appendChild(textNode);
         }
 

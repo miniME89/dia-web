@@ -1,0 +1,69 @@
+<div class="parameter-node">
+  <!-- header -->
+  <div class="header">
+    <!-- header left -->
+    <div class="pull-left" ng-mousedown="$event.stopPropagation()">
+      <span>
+        <span class="fa fa-fw expand" ng-click="collapsed=!collapsed" ng-class="{'fa-caret-down': !collapsed, 'fa-caret-right': collapsed}"></span>
+      </span>
+      <span ng-if="$parentNodeScope.parameter.type !== 'Array'">
+        <span class="parameter.name" ng-show="!editName">
+          <a href="" ng-click="editName=true">{{parameter.name}}</a>
+        </span>
+        <span class="parameter.name" ng-show="editName">
+          <input type="text" class="input-name form-control" placeholder="Name" ng-blur="editName=false" ng-model="parameter.name">
+        </span>
+      </span>
+      <span class="parameter.name" ng-if="$parentNodeScope.parameter.type === 'Array'">
+        <a href="">[{{$index}}]</a>
+      </span>
+    </div>
+    <!-- header right -->
+    <div class="pull-right" ng-mousedown="$event.stopPropagation()">
+      <button type="button" class="btn btn-default" ng-if="parameter.type === 'Array' || parameter.type === 'Object'" ng-click="add(this)">
+        <span class="fa fa-plus"></span>
+      </button>
+      <button type="button" class="btn btn-default" ng-click="remove(this)">
+        <span class="fa fa-remove"></span>
+      </button>
+      <div class="dropdown">
+        <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-expanded="true">
+          <span class="pull-left">
+            {{parameter.type}}
+          </span>
+          <span class="pull-right">
+            <span class="caret"></span>
+          </span>
+        </button>
+        <ul class="dropdown-menu dropdown-menu-right" role="menu">
+          <li><a href="" role="menuitem" ng-click="parameter.type='Boolean'; parameter.value=true;">Boolean</a></li>
+          <li><a href="" role="menuitem" ng-click="parameter.type='Integer'; parameter.value=0;">Integer</a></li>
+          <li><a href="" role="menuitem" ng-click="parameter.type='Float'; parameter.value=0;">Float</a></li>
+          <li><a href="" role="menuitem" ng-click="parameter.type='String'; parameter.value='';">String</a></li>
+          <li><a href="" role="menuitem" ng-click="parameter.type='Array'; parameter.value=[];">Array</a></li>
+          <li><a href="" role="menuitem" ng-click="parameter.type='Object'; parameter.value={};">Object</a></li>
+        </ul>
+      </div>
+    </div>
+  </div>
+  <!-- body -->
+  <div class="body" ng-class="{hidden: collapsed}">
+    <!-- value: Boolean -->
+    <div class="dropdown" ng-if="parameter.type == 'Boolean'">
+      <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-expanded="true">
+        {{(parameter.value) ? 'True' : 'False'}}
+        <span class="caret"></span>
+      </button>
+      <ul class="dropdown-menu" role="menu">
+        <li><a href="" role="menuitem" ng-click="parameter.value=true">True</a></li>
+        <li><a href="" role="menuitem" ng-click="parameter.value=false">False</a></li>
+      </ul>
+    </div>
+    <!-- value: Integer, Float, String -->
+    <input type="text" class="form-control" placeholder="Value" ng-if="parameter.type == 'Integer' || parameter.type == 'Float' || parameter.type == 'String'" ng-model="parameter.value">
+    <!-- value: Array, Object -->
+    <ol ng-if="parameter.type == 'Array' || parameter.type == 'Object'" ng-model="parameter.value" ui-tree-nodes>
+      <li ng-repeat="parameter in parameter.value" ng-include="'commons/directives/parameter-editor/parameter-node.html'" data-collapsed="true" ui-tree-node></li>
+    </ol>
+  </div>
+</div>
