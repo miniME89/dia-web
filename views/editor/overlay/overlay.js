@@ -13,8 +13,8 @@ app.directive("overlay", function() {
         transformElement.on("mousedown", "div", transform.start);
 
         //events
-        scope.graph.on("change:position", changePosition);
-        scope.graph.on("change:size", changeSize);
+        scope.editor.graph.on("change:position", changePosition);
+        scope.editor.graph.on("change:size", changeSize);
         scope.$watch("editor.scale", changeScale);
         scope.$watch("editor.selectionFocus", changeFocus);
         scope.$watchCollection("editor.selectionElements", changeSelection);
@@ -133,7 +133,7 @@ app.directive("overlay", function() {
 
       var changeSize = function() {
         if (scope.editor.selectionFocus instanceof joint.dia.Element) {
-          selectionBounds = scope.graph.getBBox(scope.editor.selectionElements);
+          selectionBounds = scope.editor.graph.getBBox(scope.editor.selectionElements);
 
           if (scope.editor.selectionFocus instanceof joint.dia.Element) {
             selectionBounds.startPosition = {

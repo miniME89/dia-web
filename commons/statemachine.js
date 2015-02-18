@@ -13,7 +13,7 @@ joint.shapes.statemachine.menuActions = {
     var clone = element.clone();
     clone.translate(20, 20);
 
-    scope.graph.addCell(clone);
+    scope.editor.graph.addCell(clone);
 
     scope.clearSelection();
     scope.addSelection(clone);
@@ -29,7 +29,7 @@ joint.shapes.statemachine.menuActions = {
   createTransition: function(e, scope, element) {
     var paper = scope.editor.paper;
     var paperElement = $(paper.el);
-    var graph = scope.graph;
+    var graph = scope.editor.graph;
 
     var link = new joint.shapes.statemachine.Transition({
       source: {

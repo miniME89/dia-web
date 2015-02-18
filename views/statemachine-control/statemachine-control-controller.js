@@ -1,6 +1,6 @@
 app.controller("StatemachineControlController", function($scope, StatemachineExecutorService) {
   $scope.saveXml = function() {
-    var smdl = SMDLTransformation.toSMDL($scope.graph.toJSONTree());
+    var smdl = SMDLTransformation.toSMDL($scope.editor.graph.toJSONTree());
     console.log(smdl);
   };
 

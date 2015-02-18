@@ -57,7 +57,7 @@ app.directive("element", function() {
       var dragStop = function(e, ui) {
         var scope = angular.element($("#editor")).scope();
         var editor = $("#editor");
-        var graph = scope.graph;
+        var graph = scope.editor.graph;
         var paper = scope.editor.paper;
         var svg = $(paper.svg);
         var helper = $(ui.helper);

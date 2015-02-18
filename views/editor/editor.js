@@ -8,7 +8,7 @@ app.directive("editor", function() {
           el: element,
           width: "100%",
           height: "100%",
-          model: scope.graph,
+          model: scope.editor.graph,
           gridSize: 10
         });
 
@@ -110,7 +110,7 @@ app.directive("editor", function() {
             });
 
             if (cell.get("parent")) {
-              scope.graph.getCell(cell.get("parent")).unembed(cell);
+              scope.editor.graph.getCell(cell.get("parent")).unembed(cell);
             }
           }
         },

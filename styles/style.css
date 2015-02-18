@@ -138,6 +138,38 @@ h1, h2, h3, h4, h5, h6 {
   text-align: right;
 }
 
+.parameter-autocomplete {
+  position: relative;
+}
+
+.parameter-autocomplete .suggestions {
+  position: absolute;
+  box-shadow: 0 2px 3px 0px rgba(50, 50, 50, 0.5);
+  background-color: #FFF;
+  border: 1px solid #DFDFDF;
+  border-bottom: 0;
+  max-height: 150px;
+  left: 0;
+  right: 0;
+  top: 24px;
+  overflow-x: hidden;
+  overflow-y: auto;
+  z-index: 100;
+}
+
+.parameter-autocomplete .suggestions .suggestion {
+  border-bottom: 0px solid #DFDFDF;
+  cursor: pointer;
+  padding: 3px;
+  padding-left: 15px;
+}
+
+.parameter-autocomplete .suggestions .suggestion.highlight {
+  background-color: #428BCA;
+  color: white;
+  font-weight: bold;
+}
+
 /*****************************
             layout
 ******************************/
@@ -390,6 +422,10 @@ h1, h2, h3, h4, h5, h6 {
   background-color: white;
   margin: 50px;
   overflow: hidden;
+}
+
+.state-selection .editor {
+  outline: 2px solid red;
 }
 
 /*****************************

@@ -6,27 +6,22 @@
         <div class="input-group">
           <input type="text" placeholder="Source State" class="form-control" ng-model="dataflow.source">
           <span class="input-group-btn">
-            <button class="btn btn-default" type="button" ng-click="selectSource(dataflow)" state-selection="dataflow.source">
+            <button class="btn btn-default" type="button" state-selection="dataflow.source">
               <span class="fa fa-crosshairs"></span>
             </button>
           </span>
         </div>
+        <div ng-model="dataflow.from" parameter-autocomplete="editor.graph.getCell(dataflow.source)"></div>
+        <div class="text-center"><span class="fa fa-arrow-down"></span></div>
         <div class="input-group">
-          <input type="text" placeholder="From Parameter" class="form-control" ng-model="dataflow.from" parameterAutocomplete="dataflow.from">
+          <input type="text" placeholder="Target State" class="form-control" ng-model="editor.selectionFocus.id" disabled>
           <span class="input-group-btn">
-          <button class="btn btn-default" type="button">
-            <span class="fa fa-bars"></span>
-          </button>
+            <button class="btn btn-default" type="button" state-selection="editor.selectionFocus.id" disabled>
+              <span class="fa fa-crosshairs"></span>
+            </button>
           </span>
         </div>
-        <div class="input-group">
-          <input type="text" placeholder="To Parameter" class="form-control" ng-model="dataflow.to">
-          <span class="input-group-btn">
-          <button class="btn btn-default" type="button">
-            <span class="fa fa-bars"></span>
-          </button>
-          </span>
-        </div>
+        <div ng-model="dataflow.to" parameter-autocomplete="editor.selectionFocus"></div>
         <div class="btn-remove">
           <button type="button" class="btn btn-default" ng-click="remove($index)">
             <span class="fa fa-remove"></span> Remove

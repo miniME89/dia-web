@@ -16,12 +16,11 @@ app.controller("EditorController", function($rootScope, $scope, StatemachineExec
       },
       scale: 1.0,
       gridVisible: true,
-      grid: 10
+      grid: 10,
+      graph: new joint.dia.Graph()
     };
 
-    $rootScope.graph = new joint.dia.Graph;
-
-    $scope.graph.on("all", $scope.update);
+    $rootScope.editor.graph.on("all", $scope.update);
 
     StatemachineExecutorService.state(function(state) {
       console.log(state);
