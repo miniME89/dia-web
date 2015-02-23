@@ -1,5 +1,5 @@
 <div class="parameter-autocomplete">
-  <input type="text" placeholder="From Parameter" ng-change="autocomplete()" ng-keydown="keydown($event)" ng-focus="autocomplete()" ng-blur="clearSuggestions()" class="form-control" ng-model="parameterPath">
+  <input type="text" placeholder="Parameter" ng-change="autocomplete()" ng-keydown="keydown($event)" ng-focus="autocomplete()" ng-blur="clearSuggestions()" class="form-control" ng-model="parameterPath">
   <div class="suggestions" ng-show="suggestions.length > 0">
     <div class="suggestion" ng-repeat="suggestion in suggestions" ng-click="selectSuggestion(suggestion)" ng-class="{'highlight': $index === selected}">{{suggestion}}</div>
   </div>

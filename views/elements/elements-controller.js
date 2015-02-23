@@ -49,6 +49,7 @@ app.controller("ElementsController", function($rootScope, $scope, ApplicationDis
         var state = new joint.shapes.statemachine.invoke({
           name: applications[i].name,
           description: applications[i].description,
+          binding: applications[i].binding,
           endpoint: applications[i].endpoint,
           parameters: applications[i].parameters,
           dataflows: []

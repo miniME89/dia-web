@@ -1,4 +1,4 @@
-app.controller("EditorController", function($rootScope, $scope, StatemachineExecutorService) {
+app.controller("EditorController", function($rootScope, $scope, StatemachineExecutorService, localStorageService) {
   var init = function() {
     $scope.debug = true;
 
@@ -20,13 +20,15 @@ app.controller("EditorController", function($rootScope, $scope, StatemachineExec
       graph: new joint.dia.Graph()
     };
 
+    //TODO temporary
+    setTimeout(function() {
+      var statemachine = localStorageService.get('statemachine');
+      if (statemachine) {
+        $rootScope.editor.graph.fromJSON(statemachine);
+      }
+    }, 500);
+
     $rootScope.editor.graph.on("all", $scope.update);
-
-    StatemachineExecutorService.state(function(state) {
-      console.log(state);
-
-      return true;
-    });
   }
 
   $scope.addSelection = function(element) {

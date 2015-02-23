@@ -7,8 +7,10 @@ app.controller("LogController", function($scope, StatemachineExecutorService) {
 
     $scope.filterLogReset();
 
-    StatemachineExecutorService.log(function(log) {
-      $scope.addLog(log);
+    StatemachineExecutorService.log(function(logs) {
+      for (var i = 0; i < logs.length; i++) {
+        $scope.addLog(logs[i]);
+      }
 
       return true;
     });

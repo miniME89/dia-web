@@ -1,7 +1,6 @@
 app.controller("LayoutController", function($scope, LayoutService) {
   var init = function() {
     $scope.sidebarSortableOptions = {
-      containment: 'body',
       appendTo: 'body',
       connectWith: '.sortable',
       handle: '.header',

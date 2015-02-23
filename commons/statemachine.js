@@ -19,19 +19,12 @@ joint.shapes.statemachine.menuActions = {
     scope.addSelection(clone);
     scope.setFocus(clone);
   },
-  removeLinks: function(e, scope, element) {
-    bootbox.confirm("Do you want to <strong>remove all transitions</strong> of the selected element?", function(result) {
-      if (result) {
-
-      }
-    });
-  },
   createTransition: function(e, scope, element) {
     var paper = scope.editor.paper;
     var paperElement = $(paper.el);
     var graph = scope.editor.graph;
 
-    var link = new joint.shapes.statemachine.Transition({
+    var link = new joint.shapes.statemachine.transition({
       source: {
         id: element.id
       },
@@ -101,11 +94,6 @@ joint.shapes.statemachine.initial = joint.dia.Element.extend({
       action: joint.shapes.statemachine.menuActions.removeElement
     }, {
       visible: true,
-      icon: "fa fa-unlink fa-lg",
-      title: "Delete Transitions",
-      action: joint.shapes.statemachine.menuActions.removeLinks
-    }, {
-      visible: true,
       icon: "fa fa-link fa-lg",
       title: "Create Transition",
       action: joint.shapes.statemachine.menuActions.createTransition
@@ -132,11 +120,6 @@ joint.shapes.statemachine.final = joint.dia.Element.extend({
       icon: "fa fa-times fa-lg",
       title: "Delete",
       action: joint.shapes.statemachine.menuActions.removeElement
-    }, {
-      visible: true,
-      icon: "fa fa-unlink fa-lg",
-      title: "Delete Transitions",
-      action: joint.shapes.statemachine.menuActions.removeLinks
     }]
   }, joint.dia.Element.prototype.defaults)
 });
@@ -153,7 +136,7 @@ joint.shapes.statemachine.composite = joint.dia.Element.extend({
     type: "statemachine.composite",
     size: {
       width: 100,
-      height: 60
+      height: 70
     },
     attrs: {
       image: {
@@ -180,11 +163,6 @@ joint.shapes.statemachine.composite = joint.dia.Element.extend({
       icon: "fa fa-plus-square-o fa-lg",
       title: "Clone",
       action: joint.shapes.statemachine.menuActions.cloneElement
-    }, {
-      visible: true,
-      icon: "fa fa-unlink fa-lg",
-      title: "Delete Transitions",
-      action: joint.shapes.statemachine.menuActions.removeLinks
     }, {
       visible: true,
       icon: "fa fa-link fa-lg",
@@ -206,7 +184,7 @@ joint.shapes.statemachine.parallel = joint.dia.Element.extend({
     type: "statemachine.parallel",
     size: {
       width: 100,
-      height: 60
+      height: 70
     },
     attrs: {
       image: {
@@ -233,11 +211,6 @@ joint.shapes.statemachine.parallel = joint.dia.Element.extend({
       icon: "fa fa-plus-square-o fa-lg",
       title: "Clone",
       action: joint.shapes.statemachine.menuActions.cloneElement
-    }, {
-      visible: true,
-      icon: "fa fa-unlink fa-lg",
-      title: "Delete Transitions",
-      action: joint.shapes.statemachine.menuActions.removeLinks
     }, {
       visible: true,
       icon: "fa fa-link fa-lg",
@@ -252,13 +225,13 @@ joint.shapes.statemachine.invoke = joint.dia.Element.extend({
             '<g class="scalable">' +
               '<rect width="1" height="1" />' +
             '</g>' +
-            '<image width="30" height="30" xlink:href="images/state-invoke.png" />' +
+            '<image width="25" height="25" xlink:href="images/state-invoke.png" />' +
           '</g>',
   defaults: joint.util.deepSupplement({
     type: "statemachine.invoke",
     size: {
-      width: 100,
-      height: 60
+      width: 62,
+      height: 40
     },
     attrs: {
       image: {
@@ -274,7 +247,7 @@ joint.shapes.statemachine.invoke = joint.dia.Element.extend({
         'x-alignment': 'middle'
       }
     },
-    resizable: true,
+    resizable: false,
     menu: [{
       visible: true,
       icon: "fa fa-times fa-lg",
@@ -287,11 +260,6 @@ joint.shapes.statemachine.invoke = joint.dia.Element.extend({
       action: joint.shapes.statemachine.menuActions.cloneElement
     }, {
       visible: true,
-      icon: "fa fa-unlink fa-lg",
-      title: "Delete Transitions",
-      action: joint.shapes.statemachine.menuActions.removeLinks
-    }, {
-      visible: true,
       icon: "fa fa-link fa-lg",
       title: "Create Transition",
       action: joint.shapes.statemachine.menuActions.createTransition
@@ -299,7 +267,7 @@ joint.shapes.statemachine.invoke = joint.dia.Element.extend({
   }, joint.dia.Element.prototype.defaults)
 });
 
-joint.shapes.statemachine.Transition = joint.dia.Link.extend({
+joint.shapes.statemachine.transition = joint.dia.Link.extend({
   arrowheadMarkup:'<g class="marker-arrowhead-group marker-arrowhead-group-<%= end %>">' +
                     '<circle class="marker-arrowhead" end="<%= end %>" r="7"/>' +
                   '</g>',

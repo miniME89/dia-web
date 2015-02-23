@@ -3,8 +3,12 @@
   <div class="body padding">
     <div ng-model="editor.selectionFocus.attributes.dataflows" ui-sortable="dataflowSortableOptions">
       <div class="dataflow" ng-repeat="dataflow in editor.selectionFocus.attributes.dataflows">
+        <div class="tag">Source</div>
+        <button type="button" class="btn btn-xs btn-default btn-remove" ng-click="remove($index)">
+          <span class="fa fa-remove"></span>
+        </button>
         <div class="input-group">
-          <input type="text" placeholder="Source State" class="form-control" ng-model="dataflow.source">
+          <input type="text" placeholder="State" class="form-control" ng-model="dataflow.source">
           <span class="input-group-btn">
             <button class="btn btn-default" type="button" state-selection="dataflow.source">
               <span class="fa fa-crosshairs"></span>
@@ -12,9 +16,10 @@
           </span>
         </div>
         <div ng-model="dataflow.from" parameter-autocomplete="editor.graph.getCell(dataflow.source)"></div>
-        <div class="text-center"><span class="fa fa-arrow-down"></span></div>
+        <!--<div class="text-center"><span class="fa fa-arrow-down"></span></div>-->
+        <div class="tag">Target</div>
         <div class="input-group">
-          <input type="text" placeholder="Target State" class="form-control" ng-model="editor.selectionFocus.id" disabled>
+          <input type="text" placeholder="State" class="form-control" ng-model="editor.selectionFocus.id" disabled>
           <span class="input-group-btn">
             <button class="btn btn-default" type="button" state-selection="editor.selectionFocus.id" disabled>
               <span class="fa fa-crosshairs"></span>
@@ -22,11 +27,6 @@
           </span>
         </div>
         <div ng-model="dataflow.to" parameter-autocomplete="editor.selectionFocus"></div>
-        <div class="btn-remove">
-          <button type="button" class="btn btn-default" ng-click="remove($index)">
-            <span class="fa fa-remove"></span> Remove
-          </button>
-        </div>
       </div>
     </div>
     <button type="button" class="btn btn-default" ng-click="add()">

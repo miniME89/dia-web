@@ -29,6 +29,12 @@ app.directive("parameterEditor", function($compile) {
         scope.remove();
       };
 
+      $scope.focusInputName = function(element) {
+        setTimeout(function() {
+          $(element.target).parent().next().find('input').focus();
+        }, 100);
+      };
+
       init();
     }
   };

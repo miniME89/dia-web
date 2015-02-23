@@ -10,8 +10,8 @@ app.service('LayoutService', function(localStorageService) {
             name: 'Elements'
           },
           {
-            id: 'statemachine-control',
-            name: 'Statemachine Control'
+            id: 'statemachine-executor',
+            name: 'Statemachine Executor'
           },
           {
             id: 'endpoint',
@@ -31,7 +31,7 @@ app.service('LayoutService', function(localStorageService) {
           }
         ],
         left: {
-          views: ['elements', 'statemachine-control'],
+          views: ['elements', 'statemachine-executor'],
           closed: false
         },
         right: {
@@ -41,7 +41,8 @@ app.service('LayoutService', function(localStorageService) {
       },
       bottombar: {
         closed: false
-      }
+      },
+      bindings: ['ROS']
     };
   };
 

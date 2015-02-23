@@ -75,8 +75,8 @@ app.service('StatemachineExecutorService', function($http) {
     });
   };
 
-  service.load = function() {
-    return $http.post('/executor/statemachine/load').then(function(response) {
+  service.load = function(data) {
+    return $http.post('/executor/statemachine/load', data).then(function(response) {
       return response.data;
     });
   };
@@ -87,8 +87,8 @@ app.service('StatemachineExecutorService', function($http) {
     });
   };
 
-  service.event = function() {
-    return $http.post('/executor/statemachine/unload').then(function(response) {
+  service.event = function(data) {
+    return $http.post('/executor/statemachine/event', data).then(function(response) {
       return response.data;
     });
   };

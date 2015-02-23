@@ -1,4 +1,4 @@
-app.directive("editor", function() {
+app.directive("editor", function(StatemachineExecutorService, localStorageService) {
   return {
     restrict: "C",
     link: function(scope, element, attributes) {
@@ -18,6 +18,9 @@ app.directive("editor", function() {
 
         scope.editor.paper.on("all", scope.update);
 
+        //statemachine changes
+        StatemachineExecutorService.state(statemachineChanges);
+
         //element actions
         scope.editor.paper.on("cell:pointerdown", dragElement.start);
         scope.editor.paper.on("cell:pointerup", dragElement.end);
@@ -33,6 +36,54 @@ app.directive("editor", function() {
         //paper actions
         scope.editor.paper.on("blank:pointerdown", dragPaper.start);
         scope.editor.paper.on("blank:pointerup", dragPaper.end);
+      };
+
+      /*
+       * statemachine changes
+       */
+      var statemachineChanges = function(states) {
+        for (var i = 0; i < states.length; i++) {
+          var state = states[i];
+          //statemachine
+          if (state.action === 'statemachine') {
+            //statemachine start
+            if (state.change === 'start') {
+              $('.editor [model-id]').each(function() {
+                $(this).attr('class', $(this).attr('class').replace(' active', '').replace(' finish', ''));
+              });
+            }
+            //statemachine stop
+            else if (state.change === 'stop') {
+              $('.editor [model-id]').each(function() {
+                $(this).attr('class', $(this).attr('class').replace(' active', '').replace(' finish', ''));
+              });
+            }
+          }
+          //state
+          else if (state.action === 'state') {
+            var element = $('.editor [model-id="' + state.id + '"]');
+            if (element.length === 1) {
+              //state enter
+              if (state.change === 'enter') {
+                element.attr('class', element.attr('class').replace(' active', '').replace(' finish', '') + ' active');
+              }
+              //state exit
+              else if (state.change === 'exit') {
+                element.attr('class', element.attr('class').replace(' active', '').replace(' finish', ''));
+              }
+              //state finish
+              else if (state.change === 'finish') {
+                element.attr('class', element.attr('class').replace(' active', '').replace(' finish', '') + ' finish');
+              }
+            }
+          }
+          //transition
+          else if (state.type === 'transition') {
+
+          }
+        }
+
+        return true;
       };
 
       /*

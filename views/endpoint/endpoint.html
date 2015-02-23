@@ -1,6 +1,21 @@
 <div class="view" ng-if="editor.selectionFocus.attributes.endpoint">
   <div class="header">Endpoint</div>
   <div class="body padding">
-    <div value="editor.selectionFocus.attributes.endpoint" parameter-editor></div>
+    <div class="tag">Binding</div>
+    <div class="input-group" style="width:160px;">
+      <input type="text" class="form-control" ng-model="editor.selectionFocus.attributes.binding">
+      <div class="input-group-btn">
+        <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
+          <span class="caret"></span>
+        </button>
+        <ul class="dropdown-menu dropdown-menu-right" role="menu" style="width:160px;">
+          <li ng-repeat="binding in layout.bindings">
+            <a href="" ng-click="editor.selectionFocus.attributes.binding=binding">{{binding}}</a>
+          </li>
+        </ul>
+      </div>
+    </div>
+    <div class="tag">Endpoint</div>
+    <div parameter-editor="editor.selectionFocus.attributes.endpoint"></div>
   </div>
 </div>

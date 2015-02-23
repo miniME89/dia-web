@@ -2,24 +2,26 @@
   <!-- header -->
   <div class="header">
     <!-- header left -->
-    <div class="pull-left" ng-mousedown="$event.stopPropagation()">
+    <div class="left" ng-mousedown="$event.stopPropagation()">
       <span>
         <span class="fa fa-fw expand" ng-click="collapsed=!collapsed" ng-class="{'fa-caret-down': !collapsed, 'fa-caret-right': collapsed}"></span>
       </span>
       <span ng-if="$parentNodeScope.parameter.type !== 'Array'">
-        <span class="parameter.name" ng-show="!editName">
-          <a href="" ng-click="editName=true">{{parameter.name}}</a>
+        <span ng-show="!editName">
+          <a href="" ng-click="editName=true; focusInputName($event);">{{parameter.name}}</a>
         </span>
-        <span class="parameter.name" ng-show="editName">
-          <input type="text" class="input-name form-control" placeholder="Name" ng-blur="editName=false" ng-model="parameter.name">
+        <span ng-show="editName">
+          <form ng-submit="editName=false">
+            <input type="text" class="input-name form-control" placeholder="Name" ng-blur="editName=false" ng-model="parameter.name">
+          </form>
         </span>
       </span>
-      <span class="parameter.name" ng-if="$parentNodeScope.parameter.type === 'Array'">
+      <span ng-if="$parentNodeScope.parameter.type === 'Array'">
         <a href="">[{{$index}}]</a>
       </span>
     </div>
     <!-- header right -->
-    <div class="pull-right" ng-mousedown="$event.stopPropagation()">
+    <div class="right" ng-mousedown="$event.stopPropagation()">
       <button type="button" class="btn btn-default" ng-if="parameter.type === 'Array' || parameter.type === 'Object'" ng-click="add(this)">
         <span class="fa fa-plus"></span>
       </button>

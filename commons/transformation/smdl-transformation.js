@@ -1,32 +1,36 @@
 var SMDLTransformation = {
   toSMDL: function(statemachine) {
     var encode = {
-      children: function(element) {
-        var childrenNode = document.createElement('childs');
+      children: function(element, parentNode) {
         var children = element.children;
         if (children) {
+          var childrenNode = document.createElement('childs');
+
           for (var i = 0; i < children.length; i++) {
             var childElement = children[i];
             var type = childElement.type.replace(/^statemachine\./, '');
 
-            var childElementNode = encode[type](childElement);
+            var childElementNode = encode[type](childElement, parentNode);
 
-            childElementNode.appendChild(encode['input'](childElement));
-            childElementNode.appendChild(encode['output'](childElement));
-            childElementNode.appendChild(encode['dataflows'](childElement));
-            childElementNode.appendChild(encode['transitions'](childElement));
-            childElementNode.appendChild(encode['children'](childElement))
+            if (childElementNode) {
+              encode['input'](childElement, childElementNode);
+              encode['output'](childElement, childElementNode);
+              encode['dataflows'](childElement, childElementNode);
+              encode['transitions'](childElement, childElementNode);
+              encode['children'](childElement, childElementNode)
 
-            childrenNode.appendChild(childElementNode);
+              childrenNode.appendChild(childElementNode);
+            }
           }
-        }
 
-        return childrenNode;
+          parentNode.appendChild(childrenNode);
+        }
       },
-      transitions: function(element) {
-        var transitionsNode = document.createElement('transitions');
+      transitions: function(element, node) {
         var transitions = element.transitions;
         if (transitions) {
+          var transitionsNode = document.createElement('transitions');
+
           for (var i = 0; i < transitions.length; i++) {
             var transition = transitions[i];
             var transitionNode = document.createElement('transition');
@@ -35,42 +39,49 @@ var SMDLTransformation = {
             eventAttribute.value = transition.event || '';
             transitionNode.setAttributeNode(eventAttribute);
 
+            var conditionAttribute = document.createAttribute('condition');
+            conditionAttribute.value = transition.condition || '';
+            transitionNode.setAttributeNode(conditionAttribute);
+
             var targetAttribute = document.createAttribute('target');
             targetAttribute.value = transition.target.id;
             transitionNode.setAttributeNode(targetAttribute);
 
             transitionsNode.appendChild(transitionNode);
           }
-        }
 
-        return transitionsNode;
+          node.appendChild(transitionsNode);
+        }
       },
-      input: function(element) {
-        var inputNode = document.createElement('input');
+      input: function(element, node) {
         var input = element.parameters.input;
         if (input) {
-          for (var key in input) {
-            inputNode.appendChild(encode['values'](input[key], key));
-          }
-        }
+          var inputNode = document.createElement('input');
 
-        return inputNode;
+          for (var key in input) {
+            inputNode.appendChild(encode['values'](input[key], input[key].name));
+          }
+
+          node.appendChild(inputNode);
+        }
       },
-      output: function(element) {
-        var outputNode = document.createElement('output');
+      output: function(element, node) {
         var output = element.parameters.output;
         if (output) {
-          for (var key in output) {
-            outputNode.appendChild(encode['values'](output[key], key));
-          }
-        }
+          var outputNode = document.createElement('output');
 
-        return outputNode;
+          for (var key in output) {
+            outputNode.appendChild(encode['values'](output[key], output[key].name));
+          }
+
+          node.appendChild(outputNode);
+        }
       },
-      dataflows: function(element) {
-        var dataflowsNode = document.createElement('dataflows');
+      dataflows: function(element, node) {
         var dataflows = element.dataflows;
         if (dataflows) {
+          var dataflowsNode = document.createElement('dataflows');
+
           for (var i = 0; i < dataflows.length; i++) {
             var dataflow = dataflows[i];
             var dataflowNode = document.createElement('dataflow');
@@ -89,6 +100,8 @@ var SMDLTransformation = {
 
             dataflowsNode.appendChild(dataflowNode);
           }
+
+          node.appendChild(dataflowsNode);
         }
 
         return dataflowsNode;
@@ -123,61 +136,66 @@ var SMDLTransformation = {
 
         return valueNode;
       },
-      statemachine: function(element) {
+      statemachine: function(element, parentNode) {
         var node = document.createElement('statemachine');
-        var id = element.id;
 
         var idAttribute = document.createAttribute('id');
-        idAttribute.value = id;
+        idAttribute.value = element.id;
         node.setAttributeNode(idAttribute);
 
         return node;
       },
-      composite: function(element) {
+      composite: function(element, parentNode) {
         var node = document.createElement('composite');
-        var id = element.id;
 
         var idAttribute = document.createAttribute('id');
-        idAttribute.value = id;
+        idAttribute.value = element.id;
         node.setAttributeNode(idAttribute);
 
         return node;
       },
-      parallel: function(element) {
+      parallel: function(element, parentNode) {
         var node = document.createElement('parallel');
-        var id = element.id;
 
         var idAttribute = document.createAttribute('id');
-        idAttribute.value = id;
+        idAttribute.value = element.id;
         node.setAttributeNode(idAttribute);
 
         return node;
       },
-      invoke: function(element) {
+      invoke: function(element, parentNode) {
         var node = document.createElement('invoke');
-        var id = element.id;
 
         var idAttribute = document.createAttribute('id');
-        idAttribute.value = id;
+        idAttribute.value = element.id;
         node.setAttributeNode(idAttribute);
 
-        var endpointNode = document.createElement('endpoint'); 
+        var endpointNode = document.createElement('endpoint');
         for (var key in element.endpoint) {
-          endpointNode.appendChild(encode['values'](element.endpoint[key], key));
+          endpointNode.appendChild(encode['values'](element.endpoint[key], element.endpoint[key].name));
         }
         node.appendChild(endpointNode);
 
-        return node;
-      },
-      initial: function(element) {
-        var node = document.createElement('initial');
-        var id = element.id;
+        var bindingAttribute = document.createAttribute('binding');
+        bindingAttribute.value = element.binding;
+        endpointNode.setAttributeNode(bindingAttribute);
 
         return node;
       },
-      final: function(element) {
+      initial: function(element, parentNode) {
+        var transitions = element.transitions;
+        if (transitions && transitions.length > 0) {
+          var initialAttribute = document.createAttribute('initial');
+          initialAttribute.value = transitions[0].target.id;
+          parentNode.setAttributeNode(initialAttribute);
+        }
+      },
+      final: function(element, parentNode) {
         var node = document.createElement('final');
-        var id = element.id;
+
+        var idAttribute = document.createAttribute('id');
+        idAttribute.value = element.id;
+        node.setAttributeNode(idAttribute);
 
         return node;
       }
@@ -185,7 +203,8 @@ var SMDLTransformation = {
 
     console.log(statemachine)
     var smdl = document.createElement("statemachine");
-    smdl.appendChild(encode['children'](statemachine));
+
+    encode['children'](statemachine, smdl);
 
     return smdl;
   },

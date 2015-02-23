@@ -1,9 +1,21 @@
 <div class="view" ng-if="editor.selectionFocus.attributes.event !== undefined" ng-controller="TransitionController">
   <div class="header">Transition</div>
   <div class="body padding">
-    <label>Event</label>
-    <input type="text" class="form-control" ng-model="editor.selectionFocus.attributes.event">
-    <label>Condition</label>
+    <div class="tag">Event</div>
+    <div class="input-group">
+      <input type="text" class="form-control" ng-model="editor.selectionFocus.attributes.event">
+      <div class="input-group-btn">
+        <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
+          <span class="caret"></span>
+        </button>
+        <ul class="dropdown-menu dropdown-menu-right" role="menu">
+          <li><a href="#" ng-click="editor.selectionFocus.attributes.event='finish'">finish</a></li>
+          <li><a href="#" ng-click="editor.selectionFocus.attributes.event='invoke.success'">invoke.success</a></li>
+          <li><a href="#" ng-click="editor.selectionFocus.attributes.event='invoke.error'">invoke.error</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="tag">Condition</div>
     <input type="text" class="form-control" ng-model="editor.selectionFocus.attributes.condition">
   </div>
 </div>
