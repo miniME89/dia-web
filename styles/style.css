@@ -46,7 +46,7 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 .popover {
-  left: 300px !important;
+  left: 350px !important;
   z-index: 1006;
 }
 
@@ -145,8 +145,7 @@ h1, h2, h3, h4, h5, h6 {
        dataflow editor
 ******************************/
 .dataflow {
-  position: relative;
-  background-color: #FFF;
+  background-color: #FAFAFA;
   border: 1px solid #ddd;
   border-left: 3px solid #428BCA;
   padding: 5px;
@@ -155,20 +154,23 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 .dataflow > * {
-  margin-bottom: 5px;
+  margin-bottom: 3px;
 }
 
-.dataflow .btn-remove {
-  position: absolute;
-  top: 2px;
-  right: 7px;
-}
-
-.parameter-autocomplete {
+.dataflow .assign {
   position: relative;
+  white-space: nowrap;
 }
 
-.parameter-autocomplete .suggestions {
+.dataflow .assign .parameter-autocomplete {
+
+}
+
+.dataflow .assign .parameter-autocomplete input {
+  width: 143px !important;
+}
+
+.dataflow .assign .parameter-autocomplete .suggestions {
   position: absolute;
   box-shadow: 0 2px 3px 0px rgba(50, 50, 50, 0.5);
   background-color: #FFF;
@@ -176,21 +178,21 @@ h1, h2, h3, h4, h5, h6 {
   border-bottom: 0;
   max-height: 150px;
   left: 0;
-  right: 0;
+  right: 30px;
   top: 24px;
   overflow-x: hidden;
   overflow-y: auto;
   z-index: 100;
 }
 
-.parameter-autocomplete .suggestions .suggestion {
+.dataflow .assign .parameter-autocomplete .suggestions .suggestion {
   border-bottom: 0px solid #DFDFDF;
   cursor: pointer;
   padding: 3px;
   padding-left: 15px;
 }
 
-.parameter-autocomplete .suggestions .suggestion.highlight {
+.dataflow .assign .parameter-autocomplete .suggestions .suggestion.highlight {
   background-color: #428BCA;
   color: white;
   font-weight: bold;
@@ -203,8 +205,8 @@ h1, h2, h3, h4, h5, h6 {
 .main {
   position: absolute;
   background-color: rgb(255, 255, 255);
-  left: 300px;
-  right: 300px;
+  left: 350px;
+  right: 350px;
   top: 43px;
   bottom: 250px;
   padding: 0;
@@ -260,7 +262,7 @@ h1, h2, h3, h4, h5, h6 {
   border-right: 1px solid #ddd;
   box-shadow: 0 -2px 2px 0 rgba(50, 50, 50, 0.5);
   left: 0;
-  width: 300px;
+  width: 350px;
   z-index: 1004;
 }
 
@@ -269,7 +271,7 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 .sidebar.left.closed {
-  left: -280px;
+  left: -330px;
 }
 
 .sidebar.left.closed > .body {
@@ -282,7 +284,7 @@ h1, h2, h3, h4, h5, h6 {
   border-left: 1px solid #ddd;
   box-shadow: 0 -2px 2px 0 rgba(50, 50, 50, 0.5);
   right: 0;
-  width: 300px;
+  width: 350px;
   z-index: 1004;
 }
 
@@ -291,7 +293,7 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 .sidebar.right.closed {
-  right: -280px;
+  right: -330px;
 }
 
 .sidebar.right.closed > .body {
@@ -306,8 +308,8 @@ h1, h2, h3, h4, h5, h6 {
   border-top: 1px solid #ddd;
   box-shadow: 0 0px 2px 0 rgba(50, 50, 50, 0.5);
   height: 250px;
-  left: 300px;
-  right: 300px;
+  left: 350px;
+  right: 350px;
   bottom: 0;
   z-index: 1003;
 }
@@ -344,8 +346,15 @@ h1, h2, h3, h4, h5, h6 {
            view
 ******************************/
 .view {
+  display: table;
+  width: 100%;
   background-color: #FFFFFF;
   margin-bottom: 10px;
+}
+
+.view [class*="col-"] {
+    padding-left: 0 !important;
+    padding-right: 0 !important;
 }
 
 .ui-sortable-helper {
@@ -371,6 +380,18 @@ h1, h2, h3, h4, h5, h6 {
   margin-bottom: 5px;
 }
 
+.view > .body .indent-1 {
+  padding-left: 10px;
+}
+
+.view > .body .indent-2 {
+  padding-left: 20px;
+}
+
+.view > .body .indent-3 {
+  padding-left: 30px;
+}
+
 .view > .body.padding {
   padding: 5px;
 }
@@ -381,9 +402,11 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 .view input,
-.view button {
+.view button,
+.view textarea {
   height: auto;
   padding: 2px 5px;
+  margin-bottom: 5px;
 }
 
 /*****************************

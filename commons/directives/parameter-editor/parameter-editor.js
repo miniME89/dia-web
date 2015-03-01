@@ -11,6 +11,12 @@ app.directive("parameterEditor", function($compile) {
         $scope.parameter = {
           value: $scope.value
         };
+
+        $scope.$watch('value', function(newValue, oldValue) {
+          $scope.parameter = {
+            value: newValue
+          };
+        });
       };
 
       $scope.add = function(scope) {

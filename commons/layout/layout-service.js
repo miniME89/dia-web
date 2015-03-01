@@ -14,6 +14,10 @@ app.service('LayoutService', function(localStorageService) {
             name: 'Statemachine Executor'
           },
           {
+            id: 'general',
+            name: 'General'
+          },
+          {
             id: 'endpoint',
             name: 'Endpoint'
           },
@@ -35,7 +39,7 @@ app.service('LayoutService', function(localStorageService) {
           closed: false
         },
         right: {
-          views: ['endpoint', 'parameters', 'dataflows', 'transition'],
+          views: ['general', 'endpoint', 'parameters', 'dataflows', 'transition'],
           closed: false
         }
       },

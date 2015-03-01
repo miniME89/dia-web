@@ -2,40 +2,30 @@ app.controller("ElementsController", function($rootScope, $scope, ApplicationDis
   var init = function() {
     $scope.groups = {};
 
-    //general elements
-    $scope.addElement('General', new joint.shapes.statemachine.initial({
+    //statemachine elements
+    $scope.addElement('State Machine', new joint.shapes.statemachine.initial({
       name: 'Initial',
-      description: 'description...',
-      parameters: {
-        input: {},
-        output: {}
-      },
-      dataflows: []
+      description: 'description...'
     }));
-    $scope.addElement('General', new joint.shapes.statemachine.final({
+    $scope.addElement('State Machine', new joint.shapes.statemachine.final({
       name: 'Final',
-      description: 'description...',
-      parameters: {
-        input: {},
-        output: {}
-      },
-      dataflows: []
+      description: 'description...'
     }));
-    $scope.addElement('General', new joint.shapes.statemachine.composite({
+    $scope.addElement('State Machine', new joint.shapes.statemachine.composite({
       name: 'Composite',
       description: 'description...',
       parameters: {
-        input: {},
-        output: {}
+        input: [],
+        output: []
       },
       dataflows: []
     }));
-    $scope.addElement('General', new joint.shapes.statemachine.parallel({
+    $scope.addElement('State Machine', new joint.shapes.statemachine.parallel({
       name: 'Parallel',
       description: 'description...',
       parameters: {
-        input: {},
-        output: {}
+        input: [],
+        output: []
       },
       dataflows: []
     }));

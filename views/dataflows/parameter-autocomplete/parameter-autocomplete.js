@@ -30,24 +30,21 @@ app.directive("parameterAutocomplete", function() {
             }
           ]
         };
-        var splitParameterPath = $scope.parameterPath.split('/');
+
+        var splitParameterPath = $scope.parameterPath.split(new RegExp('\\.|\\[', 'g'));
         var last = splitParameterPath[splitParameterPath.length - 1];
 
-        //find current parameter based on user input
         for (var i = 0; i < splitParameterPath.length; i++) {
-          if (!angular.isArray(parameters.value)) {
-            break;
-          }
-
-          if (parameters.type == 'Array') {
-            var index = parseInt(splitParameterPath[i]);
+          var subPath = splitParameterPath[i];
+          if (subPath.slice(-1) === ']' && parameters.type == 'Array') {
+            var index = parseInt(subPath.substring(0, subPath.length - 1));
             if (parameters.value[index]) {
               parameters = parameters.value[index];
             }
           }
           else {
             for (var j = 0; j < parameters.value.length; j++) {
-              if (parameters.value[j].name == splitParameterPath[i]) {
+              if (parameters.value[j].name == subPath) {
                 parameters = parameters.value[j];
                 break;
               }
@@ -55,13 +52,15 @@ app.directive("parameterAutocomplete", function() {
           }
         }
 
+        console.log(parameters);
+
         //find suggestions
         var suggestions = [];
         if (angular.isArray(parameters.value)) {
           for (var i = 0; i < parameters.value.length; i++) {
             if (parameters.value[i].name.indexOf(last) === 0 || last === '') {
               if (parameters.type === 'Array') {
-                suggestions.push(i);
+                suggestions.push('[' + i + ']');
               }
               else {
                 suggestions.push(parameters.value[i].name);
@@ -100,15 +99,15 @@ app.directive("parameterAutocomplete", function() {
       };
 
       $scope.selectSuggestion = function(suggestion) {
-        var index = $scope.parameterPath.lastIndexOf('/');
+        var index = $scope.parameterPath.lastIndexOf('.');
         if (index > -1) {
-          $scope.parameterPath = $scope.parameterPath.substr(0, index) + '/';
+          $scope.parameterPath = $scope.parameterPath.substr(0, index) + '.';
         }
         else {
           $scope.parameterPath = '';
         }
 
-        $scope.parameterPath = $scope.parameterPath + suggestion + '/';
+        $scope.parameterPath = $scope.parameterPath + suggestion + '.';
         $scope.autocomplete();
       };
 

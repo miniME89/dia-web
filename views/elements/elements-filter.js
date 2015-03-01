@@ -16,10 +16,11 @@ app.filter("elementsFilter", function() {
     angular.forEach(groups, function(group) {
       var elements = [];
       angular.forEach(group.elements, function(element) {
-        if (element.attributes.name && element.attributes.description) {
-          if (element.attributes.name.search(regex) > -1 || element.attributes.description.search(regex) > -1) {
-            elements.push(element);
-          }
+        if (element.attributes.name !== undefined && element.attributes.name.search(regex) > -1) {
+          elements.push(element);
+        }
+        else if (element.attributes.description !== undefined && element.attributes.description.search(regex) > -1) {
+          elements.push(element);
         }
       });
 

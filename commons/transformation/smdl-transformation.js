@@ -90,13 +90,20 @@ var SMDLTransformation = {
             sourceAttribute.value = dataflow.source || '';
             dataflowNode.setAttributeNode(sourceAttribute);
 
-            var fromAttribute = document.createAttribute('from');
-            fromAttribute.value = dataflow.from || '';
-            dataflowNode.setAttributeNode(fromAttribute);
+            var assigns = dataflow.assigns;
+            for (var i = 0; i < assigns.length; i++) {
+              var assignNode = document.createElement('assign');
 
-            var toAttribute = document.createAttribute('to');
-            toAttribute.value = dataflow.to || '';
-            dataflowNode.setAttributeNode(toAttribute);
+              var fromAttribute = document.createAttribute('from');
+              fromAttribute.value = dataflow.from || '';
+              assignNode.setAttributeNode(fromAttribute);
+
+              var toAttribute = document.createAttribute('to');
+              toAttribute.value = dataflow.to || '';
+              assignNode.setAttributeNode(toAttribute);
+
+              dataflowNode.appendChild(assignNode);
+            }
 
             dataflowsNode.appendChild(dataflowNode);
           }
@@ -203,6 +210,10 @@ var SMDLTransformation = {
 
     console.log(statemachine)
     var smdl = document.createElement("statemachine");
+
+    var idAttribute = document.createAttribute('id');
+    idAttribute.value = "statemachine";
+    smdl.setAttributeNode(idAttribute);
 
     encode['children'](statemachine, smdl);
 

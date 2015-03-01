@@ -230,8 +230,8 @@ joint.shapes.statemachine.invoke = joint.dia.Element.extend({
   defaults: joint.util.deepSupplement({
     type: "statemachine.invoke",
     size: {
-      width: 62,
-      height: 40
+      width: 75,
+      height: 50
     },
     attrs: {
       image: {

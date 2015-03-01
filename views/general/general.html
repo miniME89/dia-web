@@ -1,0 +1,34 @@
+<div class="view" ng-if="editor.selectionFocus && editor.selectionFocus.attributes.type !== 'statemachine.transition'" ng-controller="GeneralController">
+  <div class="header">General</div>
+  <div class="body padding">
+    <div class="tag">Info</div>
+    <input type="text" class="form-control" placeholder="Name" ng-model="editor.selectionFocus.attributes.name" disabled>
+    <textarea class="form-control" disabled>{{editor.selectionFocus.attributes.description}}</textarea>
+    <div class="tag">Position</div>
+    <div class="form-group indent-1">
+      <label class="col-xs-4" for="x">X</label>
+      <div class="col-xs-8">
+        <input class="form-control" id="x" type="number" ng-model="position.x">
+      </div>
+    </div>
+    <div class="form-group indent-1">
+      <label class="col-xs-4" for="y">Y</label>
+      <div class="col-xs-8">
+        <input class="form-control" id="y" type="number" ng-model="position.y">
+      </div>
+    </div>
+    <div class="tag">Size</div>
+    <div class="form-group indent-1">
+      <label class="col-xs-4" for="width">Width</label>
+      <div class="col-xs-8">
+        <input class="form-control" id="width" type="number" ng-model="size.width" ng-disabled="!editor.selectionFocus.attributes.resizable">
+      </div>
+    </div>
+    <div class="form-group indent-1">
+      <label class="col-xs-4" for="height">Height</label>
+      <div class="col-xs-8">
+        <input class="form-control" id="height" type="number" ng-model="size.height" ng-disabled="!editor.selectionFocus.attributes.resizable">
+      </div>
+    </div>
+  </div>
+</div>
