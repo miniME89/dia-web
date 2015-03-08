@@ -76,13 +76,13 @@ app.service('StatemachineExecutorService', function($http) {
   };
 
   service.load = function(data) {
-    return $http.post('/executor/statemachine/load', data).then(function(response) {
+    return $http.post('/executor/statemachine/', data).then(function(response) {
       return response.data;
     });
   };
 
   service.unload = function() {
-    return $http.post('/executor/statemachine/unload').then(function(response) {
+    return $http.remove('/executor/statemachine/').then(function(response) {
       return response.data;
     });
   };
